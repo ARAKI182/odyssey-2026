@@ -12,9 +12,37 @@
     const symbol = document.getElementById('introSymbol');
     if (!intro || !app || !symbol) return;
 
-    // Phase 1: Logo fades in at center (CSS animation, 1.2s + 0.3s delay)
-    // Phase 2: After pause, calculate fly target & animate to top-left
+    const introText = document.getElementById('introText');
+    const line1 = intro.querySelector('.intro__line--1');
+    const line2 = intro.querySelector('.intro__line--2');
+
+    // Phase 1: Logo fades in (CSS animation, 1.2s + 0.3s delay = ~1.5s)
+    // Phase 2: After logo appears, show typewriter text
     setTimeout(() => {
+      if (introText) {
+        introText.classList.add('intro__text--visible');
+        // Start typing line 1
+        if (line1) {
+          line1.classList.add('intro__line--typing');
+          // After line 1 finishes (1.2s), start line 2
+          setTimeout(() => {
+            line1.classList.add('intro__line--done');
+            if (line2) {
+              line2.classList.add('intro__line--typing');
+              setTimeout(() => {
+                line2.classList.add('intro__line--done');
+              }, 1000);
+            }
+          }, 1200);
+        }
+      }
+    }, 1800);
+
+    // Phase 3: After text is done, fly symbol to corner
+    setTimeout(() => {
+      // Fade out intro text
+      if (introText) introText.classList.add('intro__text--fade-out');
+
       // Temporarily show app (behind intro) so we can measure target position
       app.hidden = false;
       app.style.opacity = '0';
@@ -36,14 +64,14 @@
 
         symbol.classList.add('intro__symbol--fly');
 
-        // Phase 3: Fade out intro, reveal app underneath
+        // Phase 4: Fade out intro, reveal app underneath
         setTimeout(() => {
           app.style.transition = 'opacity 0.6s ease';
           app.style.opacity = '1';
           intro.classList.add('intro-screen--hidden');
         }, 400);
       });
-    }, 2200);
+    }, 5700);
   }
 
   /* ----- Tab switching ----- */
@@ -100,6 +128,11 @@
     let tracking = false;
 
     tabPanels.addEventListener('touchstart', (e) => {
+      // Ignore swipes that start inside the carousel
+      if (e.target.closest('.carousel')) {
+        tracking = false;
+        return;
+      }
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       tracking = true;
@@ -474,6 +507,247 @@
     setTimeout(() => toast.remove(), 2000);
   }
 
+  /* =========================================
+     Photo Journal — Multi-section Carousel + Lightbox
+     ========================================= */
+  // All photos flattened for lightbox navigation
+  let allJournalPhotos = [];
+
+  function initJournal() {
+    const container = document.getElementById('journalSections');
+    if (!container) return;
+
+    // Try loading from JSON, fallback to embedded data
+    loadJournalData().then(data => {
+      if (!data || !data.sections || data.sections.length === 0) {
+        container.innerHTML = '<p class="journal__placeholder-note">写真は準備中です</p>';
+        return;
+      }
+
+      // Flatten all photos for lightbox
+      allJournalPhotos = [];
+      data.sections.forEach(section => {
+        section.photos.sort((a, b) => (a.order || 0) - (b.order || 0));
+        section.photos.forEach(photo => {
+          allJournalPhotos.push(photo);
+        });
+      });
+
+      // Render sections
+      data.sections.forEach(section => {
+        if (section.photos.length === 0) return;
+        const sectionEl = createJournalSection(section);
+        container.appendChild(sectionEl);
+      });
+
+      // Init lightbox
+      initLightbox();
+    });
+  }
+
+  async function loadJournalData() {
+    return {
+      sections: [
+        {
+          id: 'past',
+          title: '過去のライブ写真',
+          subtitle: 'PAST LIVE PHOTOS',
+          photos: [
+            { src: 'img/journal/past/1.jpg', caption: '', order: 1 },
+            { src: 'img/journal/past/2.JPG', caption: '', order: 2 },
+            { src: 'img/journal/past/3.JPG', caption: '', order: 3 },
+            { src: 'img/journal/past/4.jpg', caption: '', order: 4 },
+            { src: 'img/journal/past/5.jpg', caption: '', order: 5 },
+            { src: 'img/journal/past/6.jpg', caption: '', order: 6 },
+            { src: 'img/journal/past/7.JPG', caption: '', order: 7 },
+            { src: 'img/journal/past/8.jpeg', caption: '', order: 8 },
+            { src: 'img/journal/past/9.jpg', caption: '', order: 9 },
+            { src: 'img/journal/past/10.JPG', caption: '', order: 10 }
+          ]
+        }
+      ]
+    };
+  }
+
+  function createJournalSection(section) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'journal__section';
+    wrapper.dataset.sectionId = section.id;
+
+    // Section header
+    const header = document.createElement('div');
+    header.className = 'journal__section-header';
+    header.innerHTML = `
+      <span class="journal__section-subtitle">${section.subtitle || ''}</span>
+      <h3 class="journal__section-title">${section.title}</h3>
+    `;
+    wrapper.appendChild(header);
+
+    // Carousel
+    const carousel = document.createElement('div');
+    carousel.className = 'carousel';
+
+    const arrowSvgPrev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const arrowSvgNext = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'carousel__arrow carousel__arrow--prev';
+    prevBtn.setAttribute('aria-label', '前へ');
+    prevBtn.innerHTML = arrowSvgPrev;
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'carousel__arrow carousel__arrow--next';
+    nextBtn.setAttribute('aria-label', '次へ');
+    nextBtn.innerHTML = arrowSvgNext;
+
+    const trackWrapper = document.createElement('div');
+    trackWrapper.className = 'carousel__track-wrapper';
+
+    const track = document.createElement('div');
+    track.className = 'carousel__track';
+
+    section.photos.forEach(photo => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel__slide';
+      const img = document.createElement('img');
+      img.className = 'carousel__img';
+      img.src = photo.src;
+      img.alt = photo.caption || '';
+      img.loading = 'lazy';
+      img.dataset.caption = photo.caption || '';
+
+      // Find global index for lightbox
+      const globalIdx = allJournalPhotos.indexOf(photo);
+      img.addEventListener('click', () => openLightbox(globalIdx));
+
+      slide.appendChild(img);
+      track.appendChild(slide);
+    });
+
+    trackWrapper.appendChild(track);
+    carousel.appendChild(prevBtn);
+    carousel.appendChild(trackWrapper);
+    carousel.appendChild(nextBtn);
+    wrapper.appendChild(carousel);
+
+    // Init carousel controls
+    initCarouselControls(carousel);
+
+    return wrapper;
+  }
+
+  function initCarouselControls(carousel) {
+    const track = carousel.querySelector('.carousel__track');
+    const slides = carousel.querySelectorAll('.carousel__slide');
+    const prevBtn = carousel.querySelector('.carousel__arrow--prev');
+    const nextBtn = carousel.querySelector('.carousel__arrow--next');
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+
+    function getSlideWidth() {
+      const gap = 12;
+      return slides[0].offsetWidth + gap;
+    }
+
+    function goToSlide(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+
+      // Center the active slide
+      const wrapperWidth = carousel.querySelector('.carousel__track-wrapper').offsetWidth;
+      const slideWidth = slides[0].offsetWidth;
+      const gap = 12;
+      const offset = (wrapperWidth - slideWidth) / 2;
+      track.style.transform = `translateX(${offset - currentIndex * (slideWidth + gap)}px)`;
+
+      // Dim non-active slides
+      slides.forEach((s, i) => {
+        s.style.opacity = i === currentIndex ? '1' : '0.4';
+        s.style.transform = i === currentIndex ? 'scale(1)' : 'scale(0.9)';
+      });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    // Touch swipe
+    let startX = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) {
+        goToSlide(dx < 0 ? currentIndex + 1 : currentIndex - 1);
+      }
+    }, { passive: true });
+
+    // Initial position - center first slide
+    goToSlide(0);
+  }
+
+  /* --- Lightbox (shared across all carousels) --- */
+  function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+
+    const lbClose = lightbox.querySelector('.lightbox__close');
+    const lbPrev = lightbox.querySelector('.lightbox__arrow--prev');
+    const lbNext = lightbox.querySelector('.lightbox__arrow--next');
+
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lbPrev) lbPrev.addEventListener('click', () => lightboxNav(-1));
+    if (lbNext) lbNext.addEventListener('click', () => lightboxNav(1));
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lightboxNav(-1);
+      if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+  }
+
+  let lightboxIndex = 0;
+
+  function openLightbox(index) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    if (!lightbox || !lightboxImg || index < 0 || index >= allJournalPhotos.length) return;
+
+    lightboxIndex = index;
+    const photo = allJournalPhotos[index];
+    lightboxImg.src = photo.src;
+    if (lightboxCaption) {
+      lightboxCaption.textContent = photo.caption || '';
+      lightboxCaption.style.display = photo.caption ? 'block' : 'none';
+    }
+    lightbox.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    lightbox.classList.remove('is-active');
+    document.body.style.overflow = '';
+  }
+
+  function lightboxNav(dir) {
+    const newIdx = (lightboxIndex + dir + allJournalPhotos.length) % allJournalPhotos.length;
+    openLightbox(newIdx);
+  }
+
   /* ----- Init ----- */
   document.addEventListener('DOMContentLoaded', () => {
     initIntro();
@@ -481,6 +755,7 @@
     initCountdown();
     loadShows();
     initShare();
+    initJournal();
   });
 
 })();

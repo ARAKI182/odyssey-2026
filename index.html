@@ -23,6 +23,19 @@
   <!-- Film grain noise overlay -->
   <div class="noise-overlay" aria-hidden="true"></div>
 
+  <!-- Animated gradient background -->
+  <div class="bg-gradient" aria-hidden="true"></div>
+
+  <!-- Decorative background typography -->
+  <div class="bg-typography" aria-hidden="true">
+    <span class="bg-typo__text bg-typo--1">LIVE ARK</span>
+    <span class="bg-typo__text bg-typo--2">ODYSSEY</span>
+    <span class="bg-typo__text bg-typo--3">2026</span>
+    <span class="bg-typo__text bg-typo--4">ARAKI</span>
+    <span class="bg-typo__text bg-typo--5">VOYAGE</span>
+    <span class="bg-typo__text bg-typo--6">ALL JAPAN</span>
+  </div>
+
   <!-- Fixed background logo (typo) -->
   <div class="bg-logo" aria-hidden="true">
     <img src="img/logo-typo.png" alt="" class="bg-logo__img">
@@ -33,6 +46,10 @@
        ======================================== -->
   <section id="intro" class="intro-screen">
     <img src="img/logo-symbol.png" alt="ODYSSEY" class="intro__symbol" id="introSymbol">
+    <div class="intro__text" id="introText">
+      <p class="intro__line intro__line--1">ARAKI LIVE TOUR 2026</p>
+      <p class="intro__line intro__line--2">「LIVE ARK ODYSSEY」</p>
+    </div>
   </section>
 
   <!-- ========================================
@@ -87,7 +104,7 @@
               <li class="news__item">
                 <span class="news__badge">NEW</span>
                 <span class="news__date">2026.04.19</span>
-                <span class="news__text">あらき ライブツアー2026「LIVE ARK ODYSSEY」開催決定！</span>
+                <span class="news__text">あらき ライブツアー2026<br>「LIVE ARK ODYSSEY」開催決定！</span>
               </li>
               <li class="news__item">
                 <span class="news__badge">NEW</span>
@@ -158,7 +175,20 @@
             <img src="img/JOURNAL.svg" alt="JOURNAL" class="heading__img">
             <span class="heading__ja">旅の記録</span>
           </h2>
-          <div class="journal__inner">
+          <!-- Carousels generated dynamically by JS -->
+          <div class="journal__sections" id="journalSections"></div>
+
+          <!-- Lightbox (shared) -->
+          <div class="lightbox" id="lightbox">
+            <button class="lightbox__close" aria-label="閉じる">&times;</button>
+            <button class="lightbox__arrow lightbox__arrow--prev" aria-label="前へ">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <img src="" alt="" class="lightbox__img" id="lightboxImg">
+            <span class="lightbox__caption" id="lightboxCaption"></span>
+            <button class="lightbox__arrow lightbox__arrow--next" aria-label="次へ">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+            </button>
           </div>
         </div>
       </div>
