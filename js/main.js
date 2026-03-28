@@ -77,14 +77,19 @@
 
     // Swipe nav: left/right swipe on tab panels
     initSwipe(tabPanels, tabs, panels);
+
+    // PC tab navigation arrows
+    const prevBtn = document.getElementById('tabPrev');
+    const nextBtn = document.getElementById('tabNext');
+    if (prevBtn) prevBtn.addEventListener('click', () => navigateTab(-1, tabs, panels, tabPanels));
+    if (nextBtn) nextBtn.addEventListener('click', () => navigateTab(1, tabs, panels, tabPanels));
   }
 
   function navigateTab(direction, tabs, panels, tabPanels) {
     // Only consider visible (not hidden) tabs
     const visibleTabs = Array.from(tabs).filter(t => !t.hidden);
     const activeIdx = visibleTabs.findIndex(t => t.classList.contains('is-active'));
-    const nextIdx = activeIdx + direction;
-    if (nextIdx < 0 || nextIdx >= visibleTabs.length) return;
+    const nextIdx = (activeIdx + direction + visibleTabs.length) % visibleTabs.length;
     switchTab(visibleTabs[nextIdx].dataset.tab, tabs, panels, tabPanels);
   }
 
@@ -123,15 +128,18 @@
     // Scroll panel to top
     if (tabPanels) tabPanels.scrollTop = 0;
 
-    // Re-measure SVGs in newly visible panel (may not have been measured if hidden)
-    requestAnimationFrame(() => {
-      const activePanel = document.getElementById(`panel-${targetId}`);
-      if (activePanel) {
-        activePanel.querySelectorAll('.heading-svg').forEach(svg => {
-          measureAndFitSVG(svg);
-        });
-      }
-    });
+    // Stagger schedule cards
+    const activePanel = document.getElementById(`panel-${targetId}`);
+    if (activePanel) {
+      activePanel.querySelectorAll('.schedule__card').forEach((card, i) => {
+        card.style.animationDelay = `${i * 0.05}s`;
+      });
+
+      // Re-measure SVGs
+      activePanel.querySelectorAll('.heading-svg').forEach(svg => {
+        measureAndFitSVG(svg);
+      });
+    }
   }
 
   /* ----- Show data (embedded) ----- */
@@ -206,6 +214,11 @@
           });
           phase2List.appendChild(li);
         }
+      });
+
+      // Stagger initial card animations
+      document.querySelectorAll('.schedule__card').forEach((card, i) => {
+        card.style.animationDelay = `${i * 0.05}s`;
       });
 
       initModal();
@@ -419,12 +432,55 @@
     }, 350);
   }
 
+  /* =========================================
+     Share button (Web Share API / fallback)
+     ========================================= */
+  function initShare() {
+    const btn = document.getElementById('shareBtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+      const shareData = {
+        title: 'LIVE ARK ODYSSEY 2026 | あらき',
+        text: 'あらき 全国ツアー LIVE ARK ODYSSEY 2026',
+        url: window.location.href
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          // Fallback: copy URL
+          await navigator.clipboard.writeText(window.location.href);
+          showShareToast();
+        }
+      } catch (e) {
+        // User cancelled or error
+      }
+    });
+  }
+
+  function showShareToast() {
+    const toast = document.createElement('div');
+    toast.textContent = 'URLをコピーしました';
+    toast.style.cssText = `
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: rgba(201, 168, 76, 0.9); color: #1a1611;
+      padding: 8px 20px; border-radius: 20px; font-size: 0.8rem;
+      font-family: var(--font-body); z-index: 99999;
+      animation: toast-in 0.3s ease, toast-out 0.3s ease 1.5s forwards;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+
   /* ----- Init ----- */
   document.addEventListener('DOMContentLoaded', () => {
     initIntro();
     initTabs();
     initCountdown();
     loadShows();
+    initShare();
   });
 
 })();

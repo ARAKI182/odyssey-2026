@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{$basic_pagetitle}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/form.css?{$update_time}" />
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="main">
+        <form method="post" action="./">
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-label">CONTACT</span>
+                    <h2 class="section__ttl">{$basic_formname}</h2>
+                </div>
+                <div class="section__body">
+                    <div id="txt_explain">
+                        <p>以下のフォームに必要事項をご記入の上、「確認」をクリックしてください。<br>
+                        <span class="required-note">*の付いている項目は必須項目です。</span></p>
+                    </div>
+
+                    <div class="red_txt">
+                        {$form_error}
+                    </div>
+
+                    <table class="table" cellspacing="0">
+                        {$form_data}
+                    </table>
+
+                    <div class="button_box">
+                        <input type="submit" name="submit_button" value="確認">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="back-link">
+            <p><a href="{$basic_moveurl}">サイトへ戻る</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

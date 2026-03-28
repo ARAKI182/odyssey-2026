@@ -1,0 +1,420 @@
+@charset "utf-8";
+
+/* ========================================
+   CSS Variables - ODYSSEY テーマ
+======================================== */
+:root {
+  --font-mincho: 'Zen Old Mincho', serif;
+  --font-gothic: 'Zen Old Mincho', 'Noto Sans JP', sans-serif;
+  --bg: #1a1611;
+  --bg-light: #2d2519;
+  --fg: #d4c5a0;
+  --fg-dim: #6b5d4f;
+  --accent: #c9a84c;
+  --gold: #c9a84c;
+  --indigo: #2d2519;
+  --red: #8b3a3a;
+}
+
+/* ========================================
+   Reset & Base
+======================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mincho);
+  font-size: 15px;
+  line-height: 1.8;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover { color: var(--fg); }
+
+/* ========================================
+   Wrapper & Main
+======================================== */
+#wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  min-height: 100vh;
+  position: relative;
+}
+
+#main {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+}
+
+/* ========================================
+   Section Header
+======================================== */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-top: 1rem;
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.section__ttl {
+  font-family: var(--font-mincho);
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--fg);
+  text-align: center;
+}
+
+.section__body {
+  padding: 0;
+}
+
+/* ========================================
+   説明文
+======================================== */
+#txt_explain {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: var(--font-gothic);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--fg-dim);
+  line-height: 2;
+  letter-spacing: 0.03em;
+}
+
+.required-note {
+  font-size: 0.75rem;
+  color: var(--red);
+}
+
+/* ========================================
+   エラー表示
+======================================== */
+.red_txt {
+  color: var(--red);
+  text-align: center;
+  font-family: var(--font-gothic);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   テーブル（フォーム）
+======================================== */
+.table {
+  width: 100%;
+  margin-bottom: 2rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: none;
+}
+
+.table th {
+  padding: 1rem 1.2rem;
+  background: rgba(45, 37, 25, 0.6);
+  color: var(--gold);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+  color: var(--fg);
+  font-family: var(--font-gothic);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.table tr:first-child th,
+.table tr:first-child td {
+  border-top: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+@media (max-width: 600px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table th {
+    padding: 0.8rem 1rem 0.3rem;
+    border-bottom: none;
+  }
+
+  .table td {
+    padding: 0.3rem 1rem 1rem;
+  }
+}
+
+/* ========================================
+   フォーム要素
+======================================== */
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password],
+textarea,
+select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  color: var(--fg);
+  font-family: var(--font-gothic);
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=tel]:focus,
+input[type=password]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+label {
+  cursor: pointer;
+  font-family: var(--font-gothic);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+::placeholder {
+  color: rgba(107, 93, 79, 0.5);
+}
+
+/* ========================================
+   ボタン
+======================================== */
+.button_box {
+  clear: both;
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.button_box--confirm {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn,
+input[type=submit] {
+  display: inline-block;
+  padding: 1rem 3rem;
+  font-family: var(--font-mincho);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+.cta-btn::before,
+input[type=submit]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent), #a07850);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.cta-btn:hover::before,
+input[type=submit]:hover::before {
+  transform: scaleX(1);
+}
+
+.cta-btn:hover,
+input[type=submit]:hover {
+  border-color: transparent;
+  color: var(--bg);
+}
+
+input[type=submit][value="戻る"] {
+  border-color: rgba(201, 168, 76, 0.3);
+  font-weight: 400;
+}
+
+input[type=submit][value="戻る"]::before {
+  background: linear-gradient(135deg, rgba(45, 37, 25, 0.8), rgba(45, 37, 25, 0.6));
+}
+
+input[type=submit][value="戻る"]:hover {
+  color: var(--fg);
+}
+
+input[type=submit]:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ========================================
+   サイトへ戻るリンク
+======================================== */
+.back-link {
+  margin-top: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(201, 168, 76, 0.1);
+  text-align: center;
+}
+
+.back-link a {
+  font-family: var(--font-gothic);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--fg-dim);
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.back-link a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.back-link a:hover {
+  color: var(--gold);
+}
+
+.back-link a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ========================================
+   完了画面
+======================================== */
+.complete-message {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.complete-icon {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+/* ========================================
+   Responsive
+======================================== */
+@media (max-width: 600px) {
+  #wrapper {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .cta-btn,
+  input[type=submit] {
+    width: 100%;
+    padding: 0.9rem 2rem;
+  }
+
+  .button_box--confirm {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #wrapper {
+    padding: 4rem 2rem 5rem;
+  }
+}

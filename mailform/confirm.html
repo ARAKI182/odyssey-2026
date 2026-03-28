@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{$basic_pagetitle}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/form.css?{$update_time}" />
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="main">
+        <form method="post" action="./">
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-label">CONFIRM</span>
+                    <h2 class="section__ttl">{$basic_formname}(確認)</h2>
+                </div>
+                <div class="section__body">
+                    <div id="txt_explain">
+                        <p>記入事項をご確認の上、問題がなければ「送信」をクリックしてください。</p>
+                    </div>
+
+                    <table class="table" cellspacing="0">
+                        {$form_data}
+                    </table>
+
+                    <div class="button_box button_box--confirm">
+                        <input type="submit" name="submit_button" value="送信">
+                        <input type="submit" name="submit_button" value="戻る">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="back-link">
+            <p><a href="{$basic_moveurl}">サイトへ戻る</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

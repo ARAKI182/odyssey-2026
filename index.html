@@ -20,6 +20,9 @@
 </head>
 <body>
 
+  <!-- Film grain noise overlay -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
   <!-- Fixed background logo (typo) -->
   <div class="bg-logo" aria-hidden="true">
     <img src="img/logo-typo.png" alt="" class="bg-logo__img">
@@ -65,6 +68,9 @@
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg>
         </button>
       </nav>
+      <button class="tab-bar__share" id="shareBtn" aria-label="シェア">
+        <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      </button>
     </header>
 
     <!-- Tab panels container -->
@@ -79,10 +85,12 @@
           <div class="news__inner">
             <ul class="news__list">
               <li class="news__item">
+                <span class="news__badge">NEW</span>
                 <span class="news__date">2026.04.19</span>
                 <span class="news__text">あらき ライブツアー2026「LIVE ARK ODYSSEY」開催決定！</span>
               </li>
               <li class="news__item">
+                <span class="news__badge">NEW</span>
                 <span class="news__date">2026.04.19</span>
                 <span class="news__text">FC「あらき組」&amp;OFFICIAL　最速先行受付開始！</span>
               </li>
@@ -98,6 +106,9 @@
               <span class="countdown__label">出発まで</span>
               <span class="countdown__number" id="countdown-days">---</span>
               <span class="countdown__unit">DAYS</span>
+            </div>
+            <div class="hero__video">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/tbEe26Azk8U?si=AVbsHTBHINq1wKCB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -171,7 +182,7 @@
             <img src="img/CONTACT.svg" alt="CONTACT" class="heading__img">
           </h2>
           <div class="contact__inner">
-            <iframe src="http://araki-live.jp/script/mailform/contact/" class="contact__iframe" title="お問い合わせフォーム" scrolling="no"></iframe>
+            <iframe src="https://araki-live.jp/script/mailform/odyssey/" class="contact__iframe" title="お問い合わせフォーム" scrolling="no"></iframe>
           </div>
           <div class="footer__bottom">
             <div class="footer__links">
@@ -196,6 +207,14 @@
       </div>
 
     </main>
+
+    <!-- PC tab navigation arrows -->
+    <button class="tab-nav tab-nav--prev" id="tabPrev" aria-label="前のタブ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="tab-nav tab-nav--next" id="tabNext" aria-label="次のタブ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
 
     <!-- Ticket bar (bottom, always visible) -->
     <div class="ticket-bar" id="ticketBar">
