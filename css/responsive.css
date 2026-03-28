@@ -1,0 +1,189 @@
+/* =========================================
+   LIVE ARK ODYSSEY 2026 — Responsive
+   ========================================= */
+
+/* --- Tablet (1024px以下) --- */
+@media (max-width: 1024px) {
+
+  :root {
+    --timeline-content-width: 40%;
+  }
+
+  .jump-menu {
+    display: none;
+  }
+}
+
+/* --- Tablet small / Large mobile (768px以下) --- */
+@media (max-width: 768px) {
+
+  :root {
+    --section-padding: 36px;
+  }
+
+  /* --- タイムライン完全非表示 --- */
+  .timeline {
+    display: none;
+  }
+
+  /* --- スクロールスナップ無効化 --- */
+  html {
+    scroll-snap-type: none;
+  }
+
+  .snap-section {
+    scroll-snap-align: none;
+    min-height: auto;
+  }
+
+  /* --- セクション: 一列フルワイド化 --- */
+  .section--left,
+  .section--right {
+    justify-content: center;
+  }
+
+  .section--left .section__content,
+  .section--right .section__content {
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding: 30px 24px;
+  }
+
+  .section--left .section__heading,
+  .section--right .section__heading {
+    text-align: left;
+  }
+
+  .section--left .schedule__item {
+    direction: ltr;
+  }
+
+  /* --- Hero --- */
+  .section--hero {
+    min-height: auto;
+    padding: 40px 0;
+  }
+
+  .section--hero .section__content {
+    padding: 0 24px;
+  }
+
+  .hero__logo-main {
+    letter-spacing: 0.05em;
+  }
+
+  .hero__countdown {
+    margin-top: 20px;
+  }
+
+  /* --- Schedule: responsive adjustments --- */
+  .section--phase1 .schedule__list {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 12px;
+  }
+
+  /* --- Intro --- */
+  .section--intro {
+    min-height: 100svh;
+  }
+
+  /* --- Section min-heights for breathing room --- */
+  .section--news,
+  .section--goods,
+  .section--journal,
+  .section--notice,
+  .section--contact {
+    min-height: 55vh;
+  }
+
+  .section--ticket {
+    min-height: 60vh;
+  }
+
+  /* --- Footer --- */
+  .section--footer {
+    padding: 60px 20px 40px;
+  }
+}
+
+/* --- Mobile (480px以下) --- */
+@media (max-width: 480px) {
+
+  :root {
+    --section-padding: 28px;
+  }
+
+  .section--left .section__content,
+  .section--right .section__content {
+    padding: 24px 16px;
+  }
+
+  .section--center .section__content {
+    padding: 0 16px;
+  }
+
+  .intro__title {
+    letter-spacing: 0.08em;
+  }
+
+  .hero__date {
+    letter-spacing: 0.1em;
+  }
+
+  .hero__countdown {
+    margin-top: 24px;
+    gap: 8px;
+  }
+
+  .countdown__number {
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
+  }
+
+  .statement__line {
+    line-height: 2;
+    font-size: clamp(1rem, 4.5vw, 1.3rem);
+  }
+
+  /* Phase 1 stays 2-column on small mobile */
+  .section--phase1 .schedule__list {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .schedule__card {
+    padding: 8px 8px;
+  }
+
+  .schedule__date {
+    font-size: 0.65rem;
+  }
+
+  .schedule__city {
+    font-size: 0.8rem;
+  }
+
+  .schedule__card-line2 {
+    font-size: 0.6rem;
+  }
+
+  .cta-button {
+    padding: 14px 36px;
+    font-size: 0.9rem;
+  }
+
+  .sticky-cta__button {
+    padding: 10px 32px;
+    font-size: 0.8rem;
+  }
+
+  .footer__links {
+    gap: 20px;
+  }
+
+  .section--footer {
+    padding: 48px 16px 32px;
+  }
+}

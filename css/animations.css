@@ -1,0 +1,167 @@
+/* =========================================
+   LIVE ARK ODYSSEY 2026 — Animations
+   ========================================= */
+
+/* --- Intro sequence --- */
+.intro--loaded .intro__compass {
+  opacity: 1;
+  transition: opacity 1.5s ease 0.3s;
+}
+
+.intro--loaded .intro__title {
+  opacity: 1;
+  transition: opacity 1.5s ease 0.8s;
+}
+
+.intro--loaded .intro__year {
+  opacity: 1;
+  transition: opacity 1.2s ease 1.5s;
+}
+
+.intro--loaded .intro__scroll-hint {
+  opacity: 1;
+  transition: opacity 1s ease 2.5s;
+}
+
+/* Compass needle sway */
+.compass-needle {
+  transform-origin: 50% 50%;
+  animation: compass-sway 4s ease-in-out infinite;
+}
+
+@keyframes compass-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+
+/* --- Fade-in on scroll (direction-aware) --- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Left sections: slide in from left */
+.section--left .fade-in {
+  transform: translateX(-40px);
+}
+
+.section--left .fade-in.is-visible {
+  transform: translateX(0);
+}
+
+/* Right sections: slide in from right */
+.section--right .fade-in {
+  transform: translateX(40px);
+}
+
+.section--right .fade-in.is-visible {
+  transform: translateX(0);
+}
+
+
+/* --- Statement lines: staggered --- */
+.fade-in-line {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in-line.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-line:nth-child(1) { transition-delay: 0s; }
+.fade-in-line:nth-child(2) { transition-delay: 0.4s; }
+.fade-in-line:nth-child(3) { transition-delay: 0.8s; }
+
+
+/* --- Schedule item stagger --- */
+.schedule__item {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.schedule__item.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* --- Map pin animation --- */
+.map__pin {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.map__pin.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.map__pin--done {
+  fill: var(--color-faded-red);
+}
+
+.map__pin--upcoming {
+  fill: var(--color-gold);
+}
+
+@keyframes pin-pulse {
+  0%, 100% { r: 5; opacity: 1; }
+  50% { r: 8; opacity: 0.6; }
+}
+
+
+/* --- Journal card entrance --- */
+.journal__card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.journal__card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* --- Subtle section overlays --- */
+.section--hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(107, 93, 79, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section--statement::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(45, 37, 25, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* --- Noise texture overlay --- */
+.section--hero::after,
+.section--map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 0;
+}
