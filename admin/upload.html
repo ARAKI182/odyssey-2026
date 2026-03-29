@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOURNAL Photo Upload — ODYSSEY Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1611;
+      --bg-card: #2d2519;
+      --fg: #d4c5a0;
+      --fg-dim: #6b5d4f;
+      --gold: #c9a84c;
+      --red: #8b3a3a;
+      --font-ja: 'Zen Old Mincho', serif;
+      --font-en: 'Cinzel', serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-ja);
+      font-size: 15px;
+      line-height: 1.8;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1.2rem 4rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    }
+
+    .header__label {
+      font-family: var(--font-en);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .header__title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+    }
+
+    .header__sub {
+      font-size: 0.75rem;
+      color: var(--fg-dim);
+      margin-top: 4px;
+    }
+
+    /* Login form */
+    .login {
+      max-width: 320px;
+      margin: 80px auto;
+      text-align: center;
+    }
+
+    .login__title {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      letter-spacing: 0.1em;
+    }
+
+    /* Form sections */
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section__title {
+      font-family: var(--font-en);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-section__title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(201, 168, 76, 0.15);
+    }
+
+    .form-section__num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      font-size: 0.65rem;
+    }
+
+    /* Select / Input */
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--fg-dim);
+      margin-bottom: 6px;
+    }
+
+    select, input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      color: var(--fg);
+      font-family: var(--font-ja);
+      font-size: 0.9rem;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      transition: border-color 0.3s;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* Venue sub-select (shows when ODYSSEY selected) */
+    .venue-select {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .venue-select.is-visible {
+      display: block;
+    }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed rgba(201, 168, 76, 0.25);
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      position: relative;
+    }
+
+    .dropzone:hover, .dropzone.is-dragover {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, 0.05);
+    }
+
+    .dropzone__icon {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+
+    .dropzone__text {
+      font-size: 0.85rem;
+      color: var(--fg-dim);
+    }
+
+    .dropzone__text-accent {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .dropzone__input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .dropzone__formats {
+      font-size: 0.7rem;
+      color: var(--fg-dim);
+      opacity: 0.5;
+      margin-top: 8px;
+    }
+
+    /* Preview grid */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .preview-item__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-item__remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .preview-item:hover .preview-item__remove {
+      opacity: 1;
+    }
+
+    .preview-item__caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 4px 6px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .preview-item__caption input {
+      width: 100%;
+      padding: 3px 6px;
+      font-size: 0.7rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    /* Upload button */
+    .upload-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-family: var(--font-ja);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--gold), #a07850);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .upload-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .upload-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+      transform: none;
+    }
+
+    /* Status */
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-align: center;
+      display: none;
+    }
+
+    .status--success {
+      display: block;
+      background: rgba(76, 175, 80, 0.15);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      color: #a8d5ab;
+    }
+
+    .status--error {
+      display: block;
+      background: rgba(139, 58, 58, 0.15);
+      border: 1px solid rgba(139, 58, 58, 0.3);
+      color: #d4a0a0;
+    }
+
+    /* Count badge */
+    .file-count {
+      font-family: var(--font-en);
+      font-size: 0.75rem;
+      color: var(--gold);
+      margin-top: 8px;
+    }
+
+    /* Back link */
+    .back-link {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(201, 168, 76, 0.1);
+    }
+
+    .back-link a {
+      font-size: 0.8rem;
+      color: var(--fg-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .back-link a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <!-- Login screen -->
+  <div class="container" id="loginScreen">
+    <div class="login">
+      <p class="header__label">ODYSSEY ADMIN</p>
+      <h1 class="login__title">JOURNAL 管理画面</h1>
+      <label for="password">パスワード</label>
+      <input type="password" id="password" placeholder="パスワードを入力">
+      <button class="upload-btn" style="margin-top: 16px;" id="loginBtn">ログイン</button>
+    </div>
+  </div>
+
+  <!-- Upload screen (hidden until login) -->
+  <div class="container" id="uploadScreen" style="display: none;">
+    <div class="header">
+      <span class="header__label">ODYSSEY ADMIN</span>
+      <h1 class="header__title">JOURNAL Photo Upload</h1>
+      <p class="header__sub">写真をアップロードしてカルーセルに追加</p>
+    </div>
+
+    <!-- Step 1: Select category -->
+    <div class="form-section">
+      <div class="form-section__title">
+        <span class="form-section__num">1</span>
+        CATEGORY
+      </div>
+      <label for="category">アップロード先を選択</label>
+      <select id="category">
+        <option value="odyssey" selected>ODYSSEY ツアー ライブフォト</option>
+        <option value="past">過去のライブ写真</option>
+      </select>
+
+      <div class="venue-select is-visible" id="venueSelect">
+        <label for="venue" style="margin-top: 10px;">公演を選択</label>
+        <select id="venue">
+          <option value="" disabled selected>公演を選んでください</option>
+          <option value="2026-08-10_aomori">8/10 青森 Quarter</option>
+          <option value="2026-08-16_akita">8/16 秋田 SWINDLE</option>
+          <option value="2026-08-23_miyagi">8/23 宮城 Rensa</option>
+          <option value="2026-08-29_niigata">8/29 新潟 LOTS</option>
+          <option value="2026-09-06_ibaraki">9/6 茨城 水戸ライトハウス</option>
+          <option value="2026-09-13_saitama">9/13 埼玉 HEAVEN'S ROCK</option>
+          <option value="2026-09-20_ishikawa">9/20 石川 金沢エイトホール</option>
+          <option value="2026-09-22_toyama">9/22 富山 SOUL POWER</option>
+          <option value="2026-10-04_kanagawa">10/4 神奈川 横浜Bayhall</option>
+          <option value="2026-10-10_shizuoka">10/10 静岡 浜松窓枠</option>
+          <option value="2026-10-17_osaka">10/17 大阪 BIGCAT</option>
+          <option value="2026-10-24_aichi">10/24 愛知 名古屋クアトロ</option>
+          <option value="2026-10-31_hyogo">10/31 兵庫 神戸VARIT</option>
+          <option value="2026-11-07_hiroshima">11/7 広島 LIVE VANQUISH</option>
+          <option value="2026-11-15_kagoshima">11/15 鹿児島 CAPARVO HALL</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 2: Upload photos -->
+    <div class="form-section">
+      <div class="form-section__title">
+        <span class="form-section__num">2</span>
+        PHOTOS
+      </div>
+      <div class="dropzone" id="dropzone">
+        <input type="file" class="dropzone__input" id="fileInput" multiple accept="image/*">
+        <div class="dropzone__icon">📷</div>
+        <p class="dropzone__text">タップして写真を選択<br>または<span class="dropzone__text-accent">ドラッグ＆ドロップ</span></p>
+        <p class="dropzone__formats">JPG, PNG, WEBP（1枚最大10MB）</p>
+      </div>
+      <p class="file-count" id="fileCount"></p>
+      <div class="preview-grid" id="previewGrid"></div>
+    </div>
+
+    <!-- Step 3: Caption (optional) -->
+    <div class="form-section" id="captionSection" style="display: none;">
+      <div class="form-section__title">
+        <span class="form-section__num">3</span>
+        CAPTION
+      </div>
+      <p style="font-size: 0.8rem; color: var(--fg-dim); margin-bottom: 8px;">各写真のキャプションはプレビュー画像の下部に入力できます</p>
+    </div>
+
+    <!-- Upload button -->
+    <button class="upload-btn" id="uploadBtn" disabled>アップロード</button>
+
+    <!-- Status message -->
+    <div class="status" id="statusMsg"></div>
+
+    <div class="back-link">
+      <a href="../index.html">← サイトへ戻る</a>
+    </div>
+  </div>
+
+  <script>
+    // Demo: Simple password gate
+    const loginScreen = document.getElementById('loginScreen');
+    const uploadScreen = document.getElementById('uploadScreen');
+    const loginBtn = document.getElementById('loginBtn');
+    const passwordInput = document.getElementById('password');
+
+    // Demo password (本番ではサーバーサイド認証に置き換え)
+    const DEMO_PASSWORD = 'odyssey2026';
+
+    loginBtn.addEventListener('click', () => {
+      if (passwordInput.value === DEMO_PASSWORD) {
+        loginScreen.style.display = 'none';
+        uploadScreen.style.display = 'block';
+      } else {
+        alert('パスワードが正しくありません');
+      }
+    });
+
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+
+    // Category → show venue select
+    const categorySelect = document.getElementById('category');
+    const venueSelect = document.getElementById('venueSelect');
+
+    categorySelect.addEventListener('change', () => {
+      venueSelect.classList.toggle('is-visible', categorySelect.value === 'odyssey');
+      checkReady();
+    });
+
+    // File input
+    const fileInput = document.getElementById('fileInput');
+    const previewGrid = document.getElementById('previewGrid');
+    const fileCount = document.getElementById('fileCount');
+    const captionSection = document.getElementById('captionSection');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    let selectedFiles = [];
+
+    fileInput.addEventListener('change', handleFiles);
+
+    // Drag & drop
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('is-dragover');
+    });
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('is-dragover');
+    });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('is-dragover');
+      const dt = e.dataTransfer;
+      if (dt.files.length) {
+        fileInput.files = dt.files;
+        handleFiles();
+      }
+    });
+
+    function handleFiles() {
+      const files = Array.from(fileInput.files);
+      selectedFiles = files;
+
+      previewGrid.innerHTML = '';
+      files.forEach((file, i) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const item = document.createElement('div');
+          item.className = 'preview-item';
+          item.innerHTML = `
+            <img src="${e.target.result}" alt="" class="preview-item__img">
+            <button class="preview-item__remove" data-index="${i}">&times;</button>
+            <div class="preview-item__caption">
+              <input type="text" placeholder="キャプション" data-index="${i}">
+            </div>
+          `;
+          previewGrid.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      fileCount.textContent = `${files.length} 枚選択中`;
+      captionSection.style.display = files.length > 0 ? 'block' : 'none';
+      checkReady();
+    }
+
+    // Remove preview
+    previewGrid.addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.preview-item__remove');
+      if (removeBtn) {
+        const idx = parseInt(removeBtn.dataset.index);
+        removeBtn.closest('.preview-item').remove();
+        selectedFiles.splice(idx, 1);
+        fileCount.textContent = selectedFiles.length > 0 ? `${selectedFiles.length} 枚選択中` : '';
+        if (selectedFiles.length === 0) captionSection.style.display = 'none';
+        checkReady();
+      }
+    });
+
+    function checkReady() {
+      const catOk = categorySelect.value !== '';
+      const venueOk = categorySelect.value !== 'odyssey' || document.getElementById('venue').value !== '';
+      const filesOk = selectedFiles.length > 0;
+      uploadBtn.disabled = !(catOk && venueOk && filesOk);
+    }
+
+    document.getElementById('venue').addEventListener('change', checkReady);
+
+    // Demo upload
+    uploadBtn.addEventListener('click', () => {
+      // Collect captions
+      const captions = [];
+      previewGrid.querySelectorAll('.preview-item__caption input').forEach(input => {
+        captions.push(input.value);
+      });
+
+      const category = categorySelect.value;
+      const venue = category === 'odyssey' ? document.getElementById('venue').value : null;
+
+      console.log('Upload data:', { category, venue, files: selectedFiles.length, captions });
+
+      // Demo: show success
+      statusMsg.className = 'status status--success';
+      statusMsg.textContent = `${selectedFiles.length} 枚の写真をアップロードしました（デモ）`;
+      statusMsg.style.display = 'block';
+
+      // Reset
+      setTimeout(() => {
+        previewGrid.innerHTML = '';
+        fileCount.textContent = '';
+        selectedFiles = [];
+        captionSection.style.display = 'none';
+        uploadBtn.disabled = true;
+        fileInput.value = '';
+      }, 500);
+    });
+  </script>
+
+</body>
+</html>
