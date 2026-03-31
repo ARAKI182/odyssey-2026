@@ -25,7 +25,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -224,11 +224,76 @@
             <img src="img/NOTICE.svg" alt="NOTICE" class="heading__img">
           </h2>
           <div class="notice__inner">
-            <div class="section-visual" aria-hidden="true">
-              <img src="img/journal/past/9.jpg" alt="" class="section-visual__img">
-              <p class="section-visual__text">COMING SOON</p>
-            </div>
-            <p class="notice__status">情報解禁までお待ちください</p>
+            <!-- Accordion 1 -->
+            <details class="notice__accordion">
+              <summary class="notice__accordion-title">チケットお申し込みに関しての注意事項</summary>
+              <div class="notice__accordion-body">
+                <ul class="notice__list">
+                  <li>本公演は電子チケットのみの取り扱いとなります。</li>
+                  <li>チケットご購入後のキャンセル/変更/払戻はできません。</li>
+                  <li>チケット申込者および同行者の方は、イープラスの会員登録とe+アプリのインストールが必要です。</li>
+                  <li>チケット先行受付のお申込み・支払・受取に関するお問い合わせ <a href="http://eplus.jp/qa/" target="_blank" rel="noopener">http://eplus.jp/qa/</a>（PC＆携帯）</li>
+                  <li>12/6-26公演 1F スタンディングチケットにつきましては整理番号ごとに観覧エリアを区分させていただきます。予めご了承ください。</li>
+                  <li>営利目的での購入及び転売を禁止いたします。体調不良やお客様都合により、来場が困難となった方のために、リセールを予定しております。</li>
+                  <li>リセールは行わない場合もございますので、予めご了承下さい。</li>
+                  <li>リセール期間終了後や、リセールが成立しなかった場合はご返金できませんので、予めご了承ください。詳細は改めてご案内いたします。</li>
+                  <li>車椅子でご来場の場合は、チケット購入後、事前に各公演のお問合せ先までご連絡をお願いいたします。</li>
+                </ul>
+              </div>
+            </details>
+            <!-- Accordion 2 -->
+            <details class="notice__accordion">
+              <summary class="notice__accordion-title">公演に関する注意事項</summary>
+              <div class="notice__accordion-body">
+                <ul class="notice__list">
+                  <li>客席内では係員の指示に従ってください。</li>
+                  <li>安全かつ円滑な公演運営のため、係員の指示に従わない場合はご退場いただく場合がございます。</li>
+                  <li>安全な服装・履物でご来場ください。</li>
+                  <li>ヒールや厚底靴の着用は禁止です。</li>
+                  <li>転倒・事故防止のためだけでなく、後方のお客様の視界を確保し、公平な環境を保つためのルールです。</li>
+                  <li>厚底靴の着用は発覚次第、履き替えをお願いする場合があります。</li>
+                  <li>鋭利なアクセサリー、長いチェーンやストラップは接触事故防止のため着用をお控えください。</li>
+                  <li>極端に大きな帽子や装飾は後方のお客様の視界を遮るためご遠慮ください。</li>
+                </ul>
+                <h4 class="notice__sub-heading">光り物の持ち込み制限について</h4>
+                <ul class="notice__list">
+                  <li>サイリウム、リングライトなどの光り物は合計2点まで持ち込み可能です。<br>例: サイリウム1本＋リングライト1個（合計2点）</li>
+                  <li>極端に明るい光や点滅が激しいもの、過度に長いものはご遠慮ください。</li>
+                </ul>
+                <h4 class="notice__sub-heading">撮影・録音・録画について</h4>
+                <ul class="notice__list">
+                  <li>公演中および待機時間のステージ・フロア内での撮影・録音・録画は禁止です。</li>
+                  <li>会場の外観やロビーなど、ステージ・フロア外での撮影は問題ありません。</li>
+                  <li>いかなる機器であっても、禁止エリアでの撮影・録音・録画を発見した場合はデータの消去を確認の上、ご退場いただきます。</li>
+                  <li>SNS等への無断投稿も固くお断りいたします。</li>
+                </ul>
+                <h4 class="notice__sub-heading">公演中の声出しについて</h4>
+                <ul class="notice__list">
+                  <li>歓声や歌唱は周囲のお客様の迷惑にならない範囲でお楽しみください。</li>
+                  <li>他のお客様の鑑賞を妨げる過度な大声や、周囲とのトラブルにつながる行為はご遠慮ください。</li>
+                </ul>
+              </div>
+            </details>
+            <!-- Accordion 3 -->
+            <details class="notice__accordion">
+              <summary class="notice__accordion-title">その他の注意事項</summary>
+              <div class="notice__accordion-body">
+                <ul class="notice__list">
+                  <li>アーティストの入り待ち・出待ちは禁止です。</li>
+                  <li>近隣への迷惑防止、および安全確保のため、会場周辺での待機・張り込み行為は禁止となります。</li>
+                  <li>出演者へのプレゼントは受け取れません。本公演では、プレゼントの受け取りは辞退させていただきます。</li>
+                  <li>（例外）お手紙は受け取り可能です。会場に設置する「お手紙回収BOX」にお入れください。直接の手渡しはご遠慮ください。</li>
+                  <li>フラワースタンドをお送りいただく際は各公演のお問合せ先までご連絡ください。</li>
+                  <li>ルールを守れない場合、入場・観覧をお断りすることがあります。</li>
+                  <li>上記の注意事項を守らず、係員の指示にも従わない場合は、入場をお断りする、またはご退場いただく場合がございます。</li>
+                </ul>
+                <p class="notice__closing">皆様が快適にライブを楽しめるよう、ご理解とご協力のほどよろしくお願いいたします。</p>
+              </div>
+            </details>
+            <!-- とりせつリンク -->
+            <a href="https://araki-live.jp/torisetsu_2026/" target="_blank" rel="noopener" class="notice__torisetsu-link">
+              <img src="img/torisetsu.png" alt="ライブ参戦トリセツ" class="notice__torisetsu-img">
+            </a>
           </div>
         </div>
       </div>

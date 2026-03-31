@@ -172,31 +172,39 @@
       activePanel.querySelectorAll('.heading-svg').forEach(svg => {
         measureAndFitSVG(svg);
       });
+
+      // Re-init carousels after layout settles
+      setTimeout(() => {
+        activePanel.querySelectorAll('.carousel').forEach(c => {
+          initCarouselControls(c);
+        });
+      }, 50);
     }
+
   }
 
   /* ----- Show data (embedded) ----- */
   let allShows = [
-    {"id":1,"date":"2026-08-10","city":"青森","venue":"青森Quarter","capacity":330,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/rDGaPyrgcDe4C3Pc8"},
-    {"id":2,"date":"2026-08-16","city":"秋田","venue":"秋田Club SWINDLE","capacity":300,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/AfNcgUTP2Esizkfg9"},
-    {"id":3,"date":"2026-08-23","city":"宮城","venue":"仙台Rensa","capacity":700,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/J2KkJsJsyRFkEPTCA"},
-    {"id":4,"date":"2026-08-29","city":"新潟","venue":"新潟LOTS","capacity":700,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/WzxjxHaYpuifS39R7"},
-    {"id":5,"date":"2026-09-06","city":"茨城","venue":"水戸ライトハウス","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/SFPqWnifA6iYAjkeA"},
-    {"id":6,"date":"2026-09-13","city":"埼玉","venue":"HEAVEN'S ROCK 熊谷 VJ-1","capacity":300,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/kptqLGRZKZjrnhN18"},
-    {"id":7,"date":"2026-09-20","city":"石川","venue":"金沢エイトホール","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/Q6dAUB7dvhNhBeW37"},
-    {"id":8,"date":"2026-09-22","city":"富山","venue":"富山SOUL POWER","capacity":250,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/KzWWUSYDwWqLjiqRA"},
-    {"id":9,"date":"2026-10-04","city":"神奈川","venue":"横浜Bayhall","capacity":800,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/CH3eQF1GBE9sh7ty5"},
-    {"id":10,"date":"2026-10-10","city":"静岡","venue":"浜松窓枠","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/ddd7UzrNLnkNKNC59"},
-    {"id":11,"date":"2026-10-17","city":"大阪","venue":"BIGCAT","capacity":600,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/WrCw2PiKqzghE8am9"},
-    {"id":12,"date":"2026-10-24","city":"愛知","venue":"名古屋クアトロ","capacity":550,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/AuLwQpqumchdAs7q7"},
-    {"id":13,"date":"2026-10-31","city":"兵庫","venue":"神戸VARIT","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/qJowrk237homXFo2A"},
-    {"id":14,"date":"2026-11-07","city":"広島","venue":"広島LIVE VANQUISH","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/DadSeSbsj2o5xMjUA"},
-    {"id":15,"date":"2026-11-15","city":"鹿児島","venue":"鹿児島CAPARVO HALL","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/GrujU9m2YQsP3Qby8"},
-    {"id":16,"date":"2026-12-06","city":"北海道","venue":"Zepp Sapporo","phase":2,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/am64qm6Fpo7w5tEc9","guests":[{"name":"天月","x_url":"https://x.com/_amatsuki_"},{"name":"KOOL","x_url":"https://x.com/KOOLizm2525"}]},
+    {"id":1,"date":"2026-08-10","city":"青森","venue":"青森Quarter","capacity":330,"phase":1,"status":"upcoming","ticket_url":null,"open":"14:30","start":"15:00","map_url":"https://maps.app.goo.gl/rDGaPyrgcDe4C3Pc8"},
+    {"id":2,"date":"2026-08-16","city":"秋田","venue":"秋田Club SWINDLE","capacity":300,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/AfNcgUTP2Esizkfg9"},
+    {"id":3,"date":"2026-08-23","city":"宮城","venue":"仙台Rensa","capacity":700,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:45","map_url":"https://maps.app.goo.gl/J2KkJsJsyRFkEPTCA"},
+    {"id":4,"date":"2026-08-29","city":"新潟","venue":"新潟LOTS","capacity":700,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:15","start":"17:00","map_url":"https://maps.app.goo.gl/WzxjxHaYpuifS39R7"},
+    {"id":5,"date":"2026-09-06","city":"茨城","venue":"水戸ライトハウス","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/SFPqWnifA6iYAjkeA"},
+    {"id":6,"date":"2026-09-13","city":"埼玉","venue":"HEAVEN'S ROCK 熊谷 VJ-1","capacity":300,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/kptqLGRZKZjrnhN18"},
+    {"id":7,"date":"2026-09-20","city":"石川","venue":"金沢エイトホール","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/Q6dAUB7dvhNhBeW37"},
+    {"id":8,"date":"2026-09-22","city":"富山","venue":"富山SOUL POWER","capacity":250,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/KzWWUSYDwWqLjiqRA"},
+    {"id":9,"date":"2026-10-04","city":"神奈川","venue":"横浜Bayhall","capacity":800,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:15","start":"17:00","map_url":"https://maps.app.goo.gl/CH3eQF1GBE9sh7ty5"},
+    {"id":10,"date":"2026-10-10","city":"静岡","venue":"浜松窓枠","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/ddd7UzrNLnkNKNC59"},
+    {"id":11,"date":"2026-10-17","city":"大阪","venue":"BIGCAT","capacity":600,"phase":1,"status":"upcoming","ticket_url":null,"open":"15:45","start":"16:30","map_url":"https://maps.app.goo.gl/WrCw2PiKqzghE8am9"},
+    {"id":12,"date":"2026-10-24","city":"愛知","venue":"名古屋クアトロ","capacity":550,"phase":1,"status":"upcoming","ticket_url":null,"open":"15:45","start":"16:30","map_url":"https://maps.app.goo.gl/AuLwQpqumchdAs7q7"},
+    {"id":13,"date":"2026-10-31","city":"兵庫","venue":"神戸VARIT","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/qJowrk237homXFo2A"},
+    {"id":14,"date":"2026-11-07","city":"広島","venue":"広島LIVE VANQUISH","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/DadSeSbsj2o5xMjUA"},
+    {"id":15,"date":"2026-11-15","city":"鹿児島","venue":"鹿児島CAPARVO HALL","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"17:30","map_url":"https://maps.app.goo.gl/GrujU9m2YQsP3Qby8"},
+    {"id":16,"date":"2026-12-06","city":"北海道","venue":"Zepp Sapporo","phase":2,"status":"upcoming","ticket_url":null,"open":"16:00","start":"17:00","map_url":"https://maps.app.goo.gl/am64qm6Fpo7w5tEc9","guests":[{"name":"天月","x_url":"https://x.com/_amatsuki_"},{"name":"KOOL","x_url":"https://x.com/KOOLizm2525"}]},
     {"id":17,"date":"2026-12-12","city":"福岡","venue":"Zepp Fukuoka","phase":2,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/JTDCbjqi15hqxJM97","guests":[{"name":"ウォルピスカーター","x_url":"https://x.com/wolpis_kater"},{"name":"タラチオ","x_url":"https://x.com/tarachi"}]},
-    {"id":18,"date":"2026-12-20","city":"愛知","venue":"Zepp Nagoya","phase":2,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/1XP6GMGEL1QfMH3K9","guests":[{"name":"センラ","x_url":"https://x.com/sen_sen_sen_sen"},{"name":"そらる","x_url":"https://x.com/soraruru"}]},
-    {"id":19,"date":"2026-12-24","city":"大阪","venue":"Zepp Osaka Bayside","phase":2,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/BD5d8JmPsWBf6UMj8","guests":[{"name":"超学生","x_url":"https://x.com/tyougakusei"},{"name":"悠佑","x_url":"https://x.com/ireisu_yusuke"}]},
-    {"id":20,"date":"2026-12-26","city":"神奈川","venue":"KT Zepp Yokohama","phase":2,"status":"upcoming","ticket_url":null,"open":"17:00","start":"18:00","map_url":"https://maps.app.goo.gl/G3ZL1mRnq3YkVoTeA","solo":true}
+    {"id":18,"date":"2026-12-20","city":"愛知","venue":"Zepp Nagoya","phase":2,"status":"upcoming","ticket_url":null,"open":"16:00","start":"17:00","map_url":"https://maps.app.goo.gl/1XP6GMGEL1QfMH3K9","guests":[{"name":"センラ","x_url":"https://x.com/sen_sen_sen_sen"},{"name":"そらる","x_url":"https://x.com/soraruru"}]},
+    {"id":19,"date":"2026-12-24","city":"大阪","venue":"Zepp Osaka Bayside","phase":2,"status":"upcoming","ticket_url":null,"open":"17:30","start":"18:30","map_url":"https://maps.app.goo.gl/BD5d8JmPsWBf6UMj8","guests":[{"name":"超学生","x_url":"https://x.com/tyougakusei"},{"name":"悠佑","x_url":"https://x.com/ireisu_yusuke"}]},
+    {"id":20,"date":"2026-12-26","city":"神奈川","venue":"KT Zepp Yokohama","phase":2,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:30","map_url":"https://maps.app.goo.gl/G3ZL1mRnq3YkVoTeA","solo":true}
   ];
 
   function loadShows() {
@@ -216,10 +224,12 @@
 
         if (show.phase === 1) {
           li.className = 'schedule__card';
+          const timeStr = show.open && show.start ? `${show.open}/${show.start}` : '';
           li.innerHTML = `
             <span class="schedule__date">${dateStr}</span>
             <span class="schedule__city">${show.city}</span>
             <span class="schedule__venue">${venueStr}</span>
+            ${timeStr ? `<span class="schedule__time">${timeStr}</span>` : ''}
           `;
           li.addEventListener('click', () => openShowModal(show));
           phase1List.appendChild(li);
@@ -234,10 +244,12 @@
           } else if (show.solo) {
             guestHTML = `<div class="schedule__card-guests schedule__card-guests--solo">SOLO</div>`;
           }
+          const timeStr = show.open && show.start ? `${show.open}/${show.start}` : '';
           li.innerHTML = `
             <div class="schedule__card-line1">
               <span class="schedule__date">${dateStr}</span>
               <span class="schedule__city">${show.city}</span>
+              ${timeStr ? `<span class="schedule__time">${timeStr}</span>` : ''}
             </div>
             <div class="schedule__card-line2">${venueStr}</div>
             ${guestHTML}
@@ -584,8 +596,73 @@
     wrapper.appendChild(header);
 
     // Carousel
+    // --- Carousel (exact demo structure) ---
+    // .carousel > .carousel__container > .carousel__inner + nav buttons
     const carousel = document.createElement('div');
     carousel.className = 'carousel';
+
+    const container = document.createElement('div');
+    container.className = 'carousel__container';
+
+    const inner = document.createElement('div');
+    inner.className = 'carousel__inner';
+
+    // Layer A: Invisible scroll layer
+    const scrollLayer = document.createElement('div');
+    scrollLayer.className = 'carousel__scroll';
+
+    const spacerStart = document.createElement('div');
+    spacerStart.className = 'carousel__spacer';
+    scrollLayer.appendChild(spacerStart);
+
+    section.photos.forEach((photo, i) => {
+      // Snap target (transparent)
+      const snap = document.createElement('div');
+      snap.className = 'carousel__snap';
+      scrollLayer.appendChild(snap);
+
+      // Visual card (absolute positioned)
+      const slide = document.createElement('div');
+      slide.className = 'carousel__slide';
+      const globalIdx = allJournalPhotos.indexOf(photo);
+      slide.dataset.globalIndex = globalIdx;
+      slide.dataset.localIndex = i;
+
+      // Card link wrapper (holds border-radius + shadow)
+      const cardLink = document.createElement('div');
+      cardLink.className = 'carousel__card-link';
+
+      const img = document.createElement('img');
+      img.className = 'carousel__img';
+      img.src = photo.src;
+      img.alt = photo.caption || '';
+      img.loading = 'lazy';
+
+      // Card overlay (gradient + caption)
+      if (photo.caption) {
+        const overlay = document.createElement('div');
+        overlay.className = 'carousel__card-overlay';
+        overlay.innerHTML = `<h3>${photo.caption}</h3>`;
+        cardLink.appendChild(overlay);
+      }
+
+      cardLink.appendChild(img);
+      slide.appendChild(cardLink);
+      inner.appendChild(slide);
+    });
+
+    const spacerEnd = document.createElement('div');
+    spacerEnd.className = 'carousel__spacer';
+    scrollLayer.appendChild(spacerEnd);
+
+    inner.appendChild(scrollLayer);
+    container.appendChild(inner);
+
+    carousel.appendChild(container);
+
+    // Navigation row: prev arrow + dots + next arrow
+    const navRow = document.createElement('div');
+    navRow.className = 'carousel__nav-row';
 
     const arrowSvgPrev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const arrowSvgNext = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
@@ -595,103 +672,184 @@
     prevBtn.setAttribute('aria-label', '前へ');
     prevBtn.innerHTML = arrowSvgPrev;
 
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = 'carousel__dots';
+    section.photos.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel__dot';
+      dot.dataset.index = i;
+      dotsContainer.appendChild(dot);
+    });
+
     const nextBtn = document.createElement('button');
     nextBtn.className = 'carousel__arrow carousel__arrow--next';
     nextBtn.setAttribute('aria-label', '次へ');
     nextBtn.innerHTML = arrowSvgNext;
 
-    const trackWrapper = document.createElement('div');
-    trackWrapper.className = 'carousel__track-wrapper';
+    navRow.appendChild(prevBtn);
+    navRow.appendChild(dotsContainer);
+    navRow.appendChild(nextBtn);
+    carousel.appendChild(navRow);
 
-    const track = document.createElement('div');
-    track.className = 'carousel__track';
-
-    section.photos.forEach(photo => {
-      const slide = document.createElement('div');
-      slide.className = 'carousel__slide';
-      const img = document.createElement('img');
-      img.className = 'carousel__img';
-      img.src = photo.src;
-      img.alt = photo.caption || '';
-      img.loading = 'lazy';
-      img.dataset.caption = photo.caption || '';
-
-      // Find global index for lightbox
-      const globalIdx = allJournalPhotos.indexOf(photo);
-      img.addEventListener('click', () => openLightbox(globalIdx));
-
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
-
-    trackWrapper.appendChild(track);
-    carousel.appendChild(prevBtn);
-    carousel.appendChild(trackWrapper);
-    carousel.appendChild(nextBtn);
     wrapper.appendChild(carousel);
-
-    // Init carousel controls
-    initCarouselControls(carousel);
 
     return wrapper;
   }
 
+  /*
+   * 3D Fan Carousel — direct port of 3d-fan-carousel-demo.html
+   *
+   * Transform values (atobeach.com measured):
+   *   offset 0:  tx=0,   rotateY=0°,  scale=1.0, opacity=1.0, z=30
+   *   offset ±1: tx=±220, rotateY=∓21°, scale=0.8, opacity=1.0, z=20
+   *   offset ±2: tx=±380, rotateY=∓25°, scale=0.7, opacity=0.6, z=10
+   */
+  const CAROUSEL_VISIBLE_RANGE = 2.5;
+  const CAROUSEL_CARD_WIDTH = 260;
+
   function initCarouselControls(carousel) {
-    const track = carousel.querySelector('.carousel__track');
-    const slides = carousel.querySelectorAll('.carousel__slide');
+    const scrollEl = carousel.querySelector('.carousel__scroll');
+    const cardEls = carousel.querySelectorAll('.carousel__slide');
     const prevBtn = carousel.querySelector('.carousel__arrow--prev');
     const nextBtn = carousel.querySelector('.carousel__arrow--next');
-    if (!track || slides.length === 0) return;
+    if (!scrollEl || cardEls.length === 0) return;
 
-    let currentIndex = 0;
+    const innerEl = carousel.querySelector('.carousel__inner');
+    const containerW = innerEl.offsetWidth;
+    if (containerW === 0) return;
 
-    function getSlideWidth() {
-      const gap = 12;
-      return slides[0].offsetWidth + gap;
+    const isMobile = window.innerWidth <= 768;
+    const cardW = isMobile ? 220 : CAROUSEL_CARD_WIDTH;
+    const spacerW = Math.floor(containerW / 2 - cardW / 2);
+
+    // Set spacer widths
+    carousel.querySelectorAll('.carousel__spacer').forEach(s => {
+      s.style.width = spacerW + 'px';
+    });
+
+    // Set snap item widths (match card width)
+    carousel.querySelectorAll('.carousel__snap').forEach(s => {
+      s.style.width = cardW + 'px';
+    });
+
+    // Set card dimensions via inline style (same as demo's buildCarousel)
+    const cardH = isMobile ? 290 : 340;
+    cardEls.forEach((card, i) => {
+      card.style.cssText = `width:${cardW}px; height:${cardH}px; left:calc(50% - ${cardW/2}px);`;
+    });
+
+    // Dot elements
+    const dots = carousel.querySelectorAll('.carousel__dot');
+
+    // --- updateCards: exact copy of demo + dot update ---
+    function updateCards() {
+      const mobile = window.innerWidth <= 768;
+      const cw = mobile ? 220 : CAROUSEL_CARD_WIDTH;
+      const scrollLeft = scrollEl.scrollLeft;
+      const activeIndex = Math.round(scrollLeft / cw);
+
+      cardEls.forEach((card, i) => {
+        const offset = i - scrollLeft / cw;
+        const absO = Math.abs(offset);
+        const sign = offset >= 0 ? 1 : -1;
+
+        if (absO > CAROUSEL_VISIBLE_RANGE) {
+          card.style.opacity = '0';
+          card.style.zIndex = '0';
+          return;
+        }
+
+        const tx = sign * (220 * Math.min(absO, 1) + 160 * Math.max(0, absO - 1));
+        const ryDeg = -sign * (21 * Math.min(absO, 1) + 4 * Math.max(0, absO - 1));
+        const ry = ryDeg * Math.PI / 180;
+        const s = Math.max(0.5, 1.0 - 0.2 * Math.min(absO, 1) - 0.1 * Math.max(0, absO - 1));
+        const op = absO <= 1.5 ? 1.0 : Math.max(0, 1.0 - (absO - 1.5) * 0.8);
+        const z = Math.max(0, 30 - Math.round(absO) * 10);
+
+        const cosR = Math.cos(ry);
+        const sinR = Math.sin(ry);
+        card.style.transform = `matrix3d(${(s*cosR).toFixed(6)},0,${(-sinR).toFixed(6)},0,0,${s.toFixed(6)},0,0,${(sinR*s).toFixed(6)},0,${cosR.toFixed(6)},0,${tx.toFixed(2)},0,0,1)`;
+        card.style.opacity = op.toFixed(4);
+        card.style.zIndex = z.toString();
+      });
+
+      // Update dot indicator (same as demo)
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('is-active', i === activeIndex);
+      }
     }
 
-    function goToSlide(index) {
-      if (index < 0) index = slides.length - 1;
-      if (index >= slides.length) index = 0;
-      currentIndex = index;
+    // Store for external access
+    carousel._updateCards = updateCards;
+    carousel._cardWidth = cardW;
 
-      // Center the active slide
-      const wrapperWidth = carousel.querySelector('.carousel__track-wrapper').offsetWidth;
-      const slideWidth = slides[0].offsetWidth;
-      const gap = 12;
-      const offset = (wrapperWidth - slideWidth) / 2;
-      track.style.transform = `translateX(${offset - currentIndex * (slideWidth + gap)}px)`;
+    // Helper: get current cardW (recalculate like demo does)
+    function getCurrentCardW() {
+      return window.innerWidth <= 768 ? 220 : CAROUSEL_CARD_WIDTH;
+    }
 
-      // Dim non-active slides
-      slides.forEach((s, i) => {
-        s.style.opacity = i === currentIndex ? '1' : '0.4';
-        s.style.transform = i === currentIndex ? 'scale(1)' : 'scale(0.9)';
+    function onScroll() {
+      requestAnimationFrame(updateCards);
+    }
+
+    // Bind events (once only — DOM is built once, not rebuilt on resize)
+    if (!carousel._eventsBound) {
+      carousel._eventsBound = true;
+
+      // Scroll → update transforms
+      scrollEl.addEventListener('scroll', onScroll, { passive: true });
+
+      // Card click → lightbox (center card) or scroll (side card)
+      scrollEl.addEventListener('click', (e) => {
+        const cw = getCurrentCardW();
+        const centerIdx = Math.round(scrollEl.scrollLeft / cw);
+        const clampedIdx = Math.max(0, Math.min(cardEls.length - 1, centerIdx));
+        const mobile = window.innerWidth <= 768;
+
+        if (!mobile) {
+          // PC: determine which card was clicked by position
+          const rect = innerEl.getBoundingClientRect();
+          const clickOffset = (e.clientX - rect.left - rect.width / 2) / cw;
+          const targetIdx = Math.round(clampedIdx + clickOffset);
+          const finalIdx = Math.max(0, Math.min(cardEls.length - 1, targetIdx));
+
+          if (Math.abs(finalIdx - clampedIdx) >= 1) {
+            scrollEl.scrollTo({ left: finalIdx * cw, behavior: 'smooth' });
+            return;
+          }
+        }
+
+        // Center card (or any tap on mobile) → lightbox
+        const slide = cardEls[clampedIdx];
+        if (slide) {
+          const globalIdx = parseInt(slide.dataset.globalIndex);
+          if (!isNaN(globalIdx)) openLightbox(globalIdx);
+        }
+      });
+
+      // Nav buttons — same as demo (scrollBy + recalculate cardW)
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        const cw = getCurrentCardW();
+        scrollEl.scrollBy({ left: -cw, behavior: 'smooth' });
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        const cw = getCurrentCardW();
+        scrollEl.scrollBy({ left: cw, behavior: 'smooth' });
+      });
+
+      // Dot click → scroll to that card
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const cw = getCurrentCardW();
+          const idx = parseInt(dot.dataset.index);
+          scrollEl.scrollTo({ left: idx * cw, behavior: 'smooth' });
+        });
       });
     }
 
-    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-    // Touch swipe
-    let startX = 0;
-    let isDragging = false;
-
-    track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      isDragging = true;
-    }, { passive: true });
-
-    track.addEventListener('touchend', (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        goToSlide(dx < 0 ? currentIndex + 1 : currentIndex - 1);
-      }
-    }, { passive: true });
-
-    // Initial position - center first slide
-    goToSlide(0);
+    // Initial scroll position & render (call directly, rAF unreliable in setTimeout)
+    scrollEl.scrollLeft = 0;
+    updateCards();
   }
 
   /* --- Lightbox (shared across all carousels) --- */

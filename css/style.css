@@ -14,9 +14,9 @@
 
   --font-heading-ja: 'Zen Old Mincho', serif;
   --font-heading-en: 'Anton', 'Arial Narrow', sans-serif;
-  --font-heading-en-serif: 'Cinzel', serif;
+  --font-heading-en-serif: 'Jost', sans-serif;
   --font-body: 'Zen Old Mincho', 'Noto Sans JP', sans-serif;
-  --font-accent: 'IM Fell English', serif;
+  --font-accent: 'Jost', sans-serif;
 
   /* Outline text */
   --stroke-color: var(--color-parchment);
@@ -46,9 +46,6 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Scroll Snap */
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -1343,6 +1340,14 @@ img {
   text-overflow: ellipsis;
 }
 
+.schedule__time {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  color: var(--color-gold);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
 /* --- Phase 2: single-column card grid --- */
 .section--phase2 .schedule__list {
   display: grid;
@@ -1600,6 +1605,115 @@ img {
 
 .notice__inner {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Accordion */
+.notice__accordion {
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(26, 22, 17, 0.5);
+}
+
+.notice__accordion-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  font-family: var(--font-heading-ja);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  cursor: pointer;
+  list-style: none;
+  transition: background 0.2s;
+}
+.notice__accordion-title::-webkit-details-marker { display: none; }
+.notice__accordion-title::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-gold);
+  border-bottom: 2px solid var(--color-gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform 0.3s;
+}
+.notice__accordion[open] > .notice__accordion-title::after {
+  transform: rotate(-135deg);
+}
+.notice__accordion-title:hover {
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.notice__accordion-body {
+  padding: 0 20px 20px;
+  text-align: left;
+}
+
+.notice__list {
+  list-style: none;
+  padding: 0;
+}
+.notice__list li {
+  position: relative;
+  padding: 6px 0 6px 16px;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--color-parchment);
+  opacity: 0.85;
+}
+.notice__list li::before {
+  content: '\30FB';
+  position: absolute;
+  left: 0;
+  color: var(--color-gold);
+}
+.notice__list li a {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.notice__sub-heading {
+  margin-top: 16px;
+  margin-bottom: 4px;
+  padding-left: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-parchment);
+  border-left: 3px solid var(--color-gold);
+  padding-left: 10px;
+}
+
+.notice__closing {
+  margin-top: 16px;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--color-parchment);
+  opacity: 0.85;
+}
+
+.notice__torisetsu-link {
+  display: block;
+  margin-top: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.notice__torisetsu-link:hover {
+  opacity: 0.85;
+}
+.notice__torisetsu-img {
+  width: 80%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  margin: 0 auto;
 }
 
 .notice__status {
@@ -2073,69 +2187,119 @@ img {
 /* =========================================
    Photo Carousel (JOURNAL)
    ========================================= */
+/* ============================
+   3D Fan Carousel (exact port of demo)
+   ============================ */
+
+/* Outer wrapper — breaks out of .tab-panel__content max-width */
 .carousel {
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 900px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Container for inner + nav buttons */
+.carousel__container {
+  position: relative;
+}
+
+/* Inner: holds scroll layer + visual cards */
+.carousel__inner {
+  position: relative;
+  height: 420px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 20px 0;
+  justify-content: center;
 }
 
-.carousel__track-wrapper {
-  flex: 1;
-  overflow: hidden;
-}
-
-.carousel__track {
+/* Layer A: Invisible scroll layer — demo exact copy */
+.carousel__scroll {
+  position: absolute;
+  inset: 0;
+  z-index: 35;
   display: flex;
-  gap: 12px;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: grab;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.carousel__scroll::-webkit-scrollbar {
+  display: none;
 }
 
-.carousel__track:active {
-  cursor: grabbing;
+.carousel__spacer {
+  flex-shrink: 0;
+  /* width set by JS: (containerW / 2 - cardW / 2) */
 }
 
+.carousel__snap {
+  flex-shrink: 0;
+  width: 260px;
+  height: 100%;
+  scroll-snap-align: center;
+}
+
+/* Layer B: Visual cards (all absolute, JS controls transform) */
 .carousel__slide {
-  flex: 0 0 60%;
-  min-width: 0;
-  border-radius: 8px;
+  position: absolute;
+  width: 260px;
+  height: 340px;
+  left: calc(50% - 130px);
+  top: 40px;
+  opacity: 0;
+  will-change: transform, opacity;
+  cursor: pointer;
+  /* No transition — frame-by-frame JS update */
+}
+
+/* Card inner wrapper (holds rounded corners + shadow) */
+.carousel__card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  border-radius: 25px;
   background: rgba(45, 37, 25, 0.4);
-  aspect-ratio: 4 / 3;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .carousel__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  display: block;
+  pointer-events: none;
 }
 
-.carousel__img:hover {
-  transform: scale(1.03);
+/* Navigation row (arrows + dots) */
+.carousel__nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-/* Carousel arrows - hidden on mobile, shown on PC */
 .carousel__arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(26, 22, 17, 0.7);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  color: var(--color-parchment);
+  cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(26, 22, 17, 0.7);
-  border: 1px solid rgba(201, 168, 76, 0.15);
-  border-radius: 50%;
-  color: var(--color-parchment);
-  cursor: pointer;
-  transition: opacity 0.3s, background 0.3s;
   flex-shrink: 0;
-  opacity: 0.6;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+  opacity: 0.7;
 }
-
 .carousel__arrow:hover {
   opacity: 1;
   background: rgba(40, 34, 26, 0.9);
@@ -2143,18 +2307,64 @@ img {
 }
 
 .carousel__arrow svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .carousel__arrow { display: none !important; }
+  .carousel__inner { height: 360px; }
+  .carousel__slide { width: 220px; height: 290px; left: calc(50% - 110px); }
+  .carousel__snap { width: 220px; }
+  .carousel__nav-row { margin-top: 32px; }
+}
 @media (min-width: 769px) {
-  .carousel__arrow {
-    display: flex;
-  }
+  .carousel__arrow { display: flex; }
+}
 
-  .carousel__slide {
-    flex: 0 0 40%;
-  }
+/* Card overlay (gradient + title) */
+.carousel__card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+  color: #fff;
+  pointer-events: none;
+}
+.carousel__card-overlay h3 {
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+.carousel__card-overlay span {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* Dot indicator */
+.carousel__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.carousel__dot.is-active {
+  background: var(--color-gold, #c9a84c);
+  width: 24px;
+  border-radius: 4px;
 }
 
 .journal__placeholder-note {
@@ -2303,11 +2513,6 @@ img {
 .hero-compact__logo,
 .glitch__img {
   aspect-ratio: auto;
-}
-
-.carousel__img {
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
 }
 
 .heading__img {
