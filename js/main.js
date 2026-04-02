@@ -12,6 +12,14 @@
     const symbol = document.getElementById('introSymbol');
     if (!intro || !app || !symbol) return;
 
+    // Skip intro for returning visitors
+    if (sessionStorage.getItem('odyssey-intro-seen')) {
+      intro.style.display = 'none';
+      app.hidden = false;
+      app.classList.add('is-ready');
+      return;
+    }
+
     const introText = document.getElementById('introText');
     const line1 = intro.querySelector('.intro__line--1');
     const line2 = intro.querySelector('.intro__line--2');
@@ -69,6 +77,7 @@
           app.style.transition = 'opacity 0.6s ease';
           app.style.opacity = '1';
           intro.classList.add('intro-screen--hidden');
+          sessionStorage.setItem('odyssey-intro-seen', '1');
         }, 400);
       });
     }, 5700);
@@ -153,7 +162,11 @@
   }
 
   function switchTab(targetId, tabs, panels, tabPanels) {
-    tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === targetId));
+    tabs.forEach(t => {
+      const isTarget = t.dataset.tab === targetId;
+      t.classList.toggle('is-active', isTarget);
+      t.setAttribute('aria-selected', String(isTarget));
+    });
     panels.forEach(p => {
       const isTarget = p.id === `panel-${targetId}`;
       p.classList.toggle('is-active', isTarget);
@@ -192,12 +205,12 @@
     {"id":5,"date":"2026-09-06","city":"茨城","venue":"水戸ライトハウス","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/SFPqWnifA6iYAjkeA"},
     {"id":6,"date":"2026-09-13","city":"埼玉","venue":"HEAVEN'S ROCK 熊谷 VJ-1","capacity":300,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/kptqLGRZKZjrnhN18"},
     {"id":7,"date":"2026-09-20","city":"石川","venue":"金沢エイトホール","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/Q6dAUB7dvhNhBeW37"},
-    {"id":8,"date":"2026-09-22","city":"富山","venue":"富山SOUL POWER","capacity":250,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/KzWWUSYDwWqLjiqRA"},
+    {"id":8,"date":"2026-09-22","city":"富山","venue":"富山SOUL POWER","capacity":250,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/KzWWUSYDwWqLjiqRA","holiday":"祝"},
     {"id":9,"date":"2026-10-04","city":"神奈川","venue":"横浜Bayhall","capacity":800,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:15","start":"17:00","map_url":"https://maps.app.goo.gl/CH3eQF1GBE9sh7ty5"},
-    {"id":10,"date":"2026-10-10","city":"静岡","venue":"浜松窓枠","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/ddd7UzrNLnkNKNC59"},
+    {"id":10,"date":"2026-10-10","city":"静岡","venue":"LiveHouse浜松窓枠","capacity":500,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:30","start":"17:00","map_url":"https://maps.app.goo.gl/ddd7UzrNLnkNKNC59"},
     {"id":11,"date":"2026-10-17","city":"大阪","venue":"BIGCAT","capacity":600,"phase":1,"status":"upcoming","ticket_url":null,"open":"15:45","start":"16:30","map_url":"https://maps.app.goo.gl/WrCw2PiKqzghE8am9"},
-    {"id":12,"date":"2026-10-24","city":"愛知","venue":"名古屋クアトロ","capacity":550,"phase":1,"status":"upcoming","ticket_url":null,"open":"15:45","start":"16:30","map_url":"https://maps.app.goo.gl/AuLwQpqumchdAs7q7"},
-    {"id":13,"date":"2026-10-31","city":"兵庫","venue":"神戸VARIT","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/qJowrk237homXFo2A"},
+    {"id":12,"date":"2026-10-24","city":"愛知","venue":"NAGOYA CLUB QUATTRO","capacity":550,"phase":1,"status":"upcoming","ticket_url":null,"open":"15:45","start":"16:30","map_url":"https://maps.app.goo.gl/AuLwQpqumchdAs7q7"},
+    {"id":13,"date":"2026-10-31","city":"兵庫","venue":"神戸VARIT.","capacity":350,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/qJowrk237homXFo2A"},
     {"id":14,"date":"2026-11-07","city":"広島","venue":"広島LIVE VANQUISH","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"16:00","start":"16:30","map_url":"https://maps.app.goo.gl/DadSeSbsj2o5xMjUA"},
     {"id":15,"date":"2026-11-15","city":"鹿児島","venue":"鹿児島CAPARVO HALL","capacity":450,"phase":1,"status":"upcoming","ticket_url":null,"open":"17:00","start":"17:30","map_url":"https://maps.app.goo.gl/GrujU9m2YQsP3Qby8"},
     {"id":16,"date":"2026-12-06","city":"北海道","venue":"Zepp Sapporo","phase":2,"status":"upcoming","ticket_url":null,"open":"16:00","start":"17:00","map_url":"https://maps.app.goo.gl/am64qm6Fpo7w5tEc9","guests":[{"name":"天月","x_url":"https://x.com/_amatsuki_"},{"name":"KOOL","x_url":"https://x.com/KOOLizm2525"}]},
@@ -219,7 +232,7 @@
         const li = document.createElement('li');
         li.dataset.showId = show.id;
 
-        const dateStr = formatDate(show.date);
+        const dateStr = formatDate(show.date, show);
         const venueStr = show.venue && show.venue !== '会場未定' ? show.venue : '';
 
         if (show.phase === 1) {
@@ -272,13 +285,14 @@
     }
   }
 
-  function formatDate(dateStr) {
+  function formatDate(dateStr, show) {
     const d = new Date(dateStr + 'T00:00:00');
     const month = d.getMonth() + 1;
     const day = d.getDate();
     const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
     const weekday = weekdays[d.getDay()];
-    return `${month}/${day} (${weekday})`;
+    const holiday = show && show.holiday ? show.holiday : '';
+    return `${month}/${day} (${weekday}${holiday})`;
   }
 
   /* =========================================
@@ -417,21 +431,22 @@
     });
   }
 
-  function formatDateLong(dateStr) {
+  function formatDateLong(dateStr, show) {
     const d = new Date(dateStr + 'T00:00:00');
     const year = d.getFullYear();
     const month = d.getMonth() + 1;
     const day = d.getDate();
     const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
     const weekday = weekdays[d.getDay()];
-    return `${year}.${month}.${day} (${weekday})`;
+    const holiday = show && show.holiday ? show.holiday : '';
+    return `${year}.${month}.${day} (${weekday}${holiday})`;
   }
 
   function openShowModal(show) {
     const overlay = document.getElementById('showModal');
     if (!overlay) return;
 
-    document.getElementById('modalDate').textContent = formatDateLong(show.date);
+    document.getElementById('modalDate').textContent = formatDateLong(show.date, show);
     document.getElementById('modalCity').textContent = show.city;
     document.getElementById('modalVenue').textContent = show.venue || '会場未定';
     document.getElementById('modalOpen').textContent = show.open || 'TBA';
@@ -562,19 +577,19 @@
       sections: [
         {
           id: 'past',
-          title: '過去のライブ写真',
+          title: '',
           subtitle: 'PAST LIVE PHOTOS',
           photos: [
-            { src: 'img/journal/past/1.jpg', caption: '', order: 1 },
-            { src: 'img/journal/past/2.JPG', caption: '', order: 2 },
-            { src: 'img/journal/past/3.JPG', caption: '', order: 3 },
-            { src: 'img/journal/past/4.jpg', caption: '', order: 4 },
-            { src: 'img/journal/past/5.jpg', caption: '', order: 5 },
-            { src: 'img/journal/past/6.jpg', caption: '', order: 6 },
-            { src: 'img/journal/past/7.JPG', caption: '', order: 7 },
-            { src: 'img/journal/past/8.jpeg', caption: '', order: 8 },
-            { src: 'img/journal/past/9.jpg', caption: '', order: 9 },
-            { src: 'img/journal/past/10.JPG', caption: '', order: 10 }
+            { src: 'img/journal/past/1.webp', caption: '', order: 1 },
+            { src: 'img/journal/past/2.webp', caption: '', order: 2 },
+            { src: 'img/journal/past/3.webp', caption: '', order: 3 },
+            { src: 'img/journal/past/4.webp', caption: '', order: 4 },
+            { src: 'img/journal/past/5.webp', caption: '', order: 5 },
+            { src: 'img/journal/past/6.webp', caption: '', order: 6 },
+            { src: 'img/journal/past/7.webp', caption: '', order: 7 },
+            { src: 'img/journal/past/8.webp', caption: '', order: 8 },
+            { src: 'img/journal/past/9.webp', caption: '', order: 9 },
+            { src: 'img/journal/past/10.webp', caption: '', order: 10 }
           ]
         }
       ]
@@ -719,7 +734,7 @@
     if (containerW === 0) return;
 
     const isMobile = window.innerWidth <= 768;
-    const cardW = isMobile ? 220 : CAROUSEL_CARD_WIDTH;
+    const cardW = isMobile ? 150 : CAROUSEL_CARD_WIDTH;
     const spacerW = Math.floor(containerW / 2 - cardW / 2);
 
     // Set spacer widths
@@ -733,7 +748,7 @@
     });
 
     // Set card dimensions via inline style (same as demo's buildCarousel)
-    const cardH = isMobile ? 290 : 340;
+    const cardH = isMobile ? 150 : 260;
     cardEls.forEach((card, i) => {
       card.style.cssText = `width:${cardW}px; height:${cardH}px; left:calc(50% - ${cardW/2}px);`;
     });
@@ -744,7 +759,7 @@
     // --- updateCards: exact copy of demo + dot update ---
     function updateCards() {
       const mobile = window.innerWidth <= 768;
-      const cw = mobile ? 220 : CAROUSEL_CARD_WIDTH;
+      const cw = mobile ? 150 : CAROUSEL_CARD_WIDTH;
       const scrollLeft = scrollEl.scrollLeft;
       const activeIndex = Math.round(scrollLeft / cw);
 
@@ -759,7 +774,9 @@
           return;
         }
 
-        const tx = sign * (220 * Math.min(absO, 1) + 160 * Math.max(0, absO - 1));
+        const baseTx = mobile ? 130 : 200;
+        const extraTx = mobile ? 90 : 140;
+        const tx = sign * (baseTx * Math.min(absO, 1) + extraTx * Math.max(0, absO - 1));
         const ryDeg = -sign * (21 * Math.min(absO, 1) + 4 * Math.max(0, absO - 1));
         const ry = ryDeg * Math.PI / 180;
         const s = Math.max(0.5, 1.0 - 0.2 * Math.min(absO, 1) - 0.1 * Math.max(0, absO - 1));
@@ -785,7 +802,7 @@
 
     // Helper: get current cardW (recalculate like demo does)
     function getCurrentCardW() {
-      return window.innerWidth <= 768 ? 220 : CAROUSEL_CARD_WIDTH;
+      return window.innerWidth <= 768 ? 150 : CAROUSEL_CARD_WIDTH;
     }
 
     function onScroll() {

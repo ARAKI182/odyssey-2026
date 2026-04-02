@@ -25,7 +25,8 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:wght@300;400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:wght@300;400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Old+Mincho&display=swap" rel="stylesheet"></noscript>
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -33,8 +34,7 @@
 </head>
 <body>
 
-  <!-- Film grain noise overlay -->
-  <div class="noise-overlay" aria-hidden="true"></div>
+  <!-- Film grain noise overlay (rendered via body::before in CSS) -->
 
   <!-- Animated gradient background -->
   <div class="bg-gradient" aria-hidden="true"></div>
@@ -75,27 +75,30 @@
       <a href="#" class="tab-bar__home" id="tabHome" aria-label="TOP">
         <img src="img/logo-symbol.png" alt="ODYSSEY" class="tab-bar__symbol">
       </a>
-      <nav class="tab-bar__nav" aria-label="セクションナビ">
-        <button class="tab-bar__tab is-active" data-tab="news" aria-label="NEWS">
+      <nav class="tab-bar__nav" role="tablist" aria-label="セクションナビ">
+        <button class="tab-bar__tab is-active" data-tab="news" role="tab" aria-selected="true" aria-controls="panel-news" id="tab-news">
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L6 8H2v6h4l6 6V2z"/><path d="M19 4l-3 3"/><path d="M19 20l-3-3"/><path d="M21 12h-4"/></svg>
+          <span class="tab-bar__label">NEWS</span>
         </button>
-        <button class="tab-bar__tab" data-tab="phase1" aria-label="LIVEHOUSE">
+        <button class="tab-bar__tab" data-tab="phase1" role="tab" aria-selected="false" aria-controls="panel-phase1" id="tab-phase1">
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <span class="tab-bar__label">LIVE</span>
         </button>
-        <button class="tab-bar__tab" data-tab="phase2" aria-label="ZEPP" hidden>
+        <button class="tab-bar__tab" data-tab="phase2" role="tab" aria-selected="false" aria-controls="panel-phase2" id="tab-phase2" hidden>
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <span class="tab-bar__label">ZEPP</span>
         </button>
-        <button class="tab-bar__tab" data-tab="goods" aria-label="GOODS">
+        <button class="tab-bar__tab" data-tab="goods" role="tab" aria-selected="false" aria-controls="panel-goods" id="tab-goods">
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a1 1 0 0 0 1 .81h9.72a1 1 0 0 0 .98-.78L21 7H6"/></svg>
+          <span class="tab-bar__label">GOODS</span>
         </button>
-        <button class="tab-bar__tab" data-tab="journal" aria-label="JOURNAL">
+        <button class="tab-bar__tab" data-tab="journal" role="tab" aria-selected="false" aria-controls="panel-journal" id="tab-journal">
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span class="tab-bar__label">PHOTO</span>
         </button>
-        <button class="tab-bar__tab" data-tab="notice" aria-label="NOTICE">
+        <button class="tab-bar__tab" data-tab="notice" role="tab" aria-selected="false" aria-controls="panel-notice" id="tab-notice">
           <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </button>
-        <button class="tab-bar__tab" data-tab="contact" aria-label="CONTACT">
-          <svg class="tab-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg>
+          <span class="tab-bar__label">INFO</span>
         </button>
       </nav>
       <button class="tab-bar__share" id="shareBtn" aria-label="シェア">
@@ -107,8 +110,39 @@
     <main class="tab-panels" id="tabPanels">
 
       <!-- Tab 1: NEWS + Countdown -->
-      <div class="tab-panel is-active" id="panel-news">
+      <div class="tab-panel is-active" id="panel-news" role="tabpanel" aria-labelledby="tab-news">
         <div class="tab-panel__content">
+          <!-- 1. Hero -->
+          <div class="hero-compact">
+            <div class="hero-compact__band" aria-hidden="true"></div>
+            <div class="hero-compact__logo glitch" aria-label="LIVE ARK ODYSSEY">
+              <img src="img/logo-typo.png" alt="LIVE ARK ODYSSEY" class="glitch__img">
+            </div>
+            <p class="hero__date">2026.8.10 &mdash; 11.15</p>
+            <p class="hero__sub">15 SHOWS ACROSS JAPAN</p>
+            <div class="hero__countdown" id="countdown">
+              <span class="countdown__label">出発まで</span>
+              <span class="countdown__number" id="countdown-days">---</span>
+              <span class="countdown__unit">DAYS</span>
+            </div>
+          </div>
+          <!-- 2. Ticket info -->
+          <div class="ticket-info">
+            <div class="ticket-info__band">
+              <div class="ticket-info__band-inner">
+                <span class="ticket-info__price-label">ALL STANDING</span>
+                <span class="ticket-info__price">&yen;6,500</span>
+                <span class="ticket-info__tax">(tax in)</span>
+              </div>
+            </div>
+          </div>
+          <!-- 3. Photo banner -->
+          <div class="photo-banner" aria-hidden="true">
+            <img src="img/journal/past/1.webp" alt="" class="photo-banner__img" loading="lazy" width="600" height="400">
+            <img src="img/journal/past/4.webp" alt="" class="photo-banner__img" loading="lazy" width="600" height="400">
+            <img src="img/journal/past/6.webp" alt="" class="photo-banner__img" loading="lazy" width="600" height="400">
+          </div>
+          <!-- 4. News -->
           <h2 class="section__heading">
             <img src="img/NEWS.svg" alt="NEWS" class="heading__img">
           </h2>
@@ -126,33 +160,15 @@
               </li>
             </ul>
           </div>
-          <!-- Photo banner break -->
-          <div class="photo-banner" aria-hidden="true">
-            <img src="img/journal/past/1.jpg" alt="" class="photo-banner__img">
-            <img src="img/journal/past/4.jpg" alt="" class="photo-banner__img">
-            <img src="img/journal/past/6.jpg" alt="" class="photo-banner__img">
-          </div>
-
-          <div class="hero-compact">
-            <div class="hero-compact__logo glitch" aria-label="LIVE ARK ODYSSEY">
-              <img src="img/logo-typo.png" alt="LIVE ARK ODYSSEY" class="glitch__img">
-            </div>
-            <p class="hero__date">2026.8.10 &mdash; 11.15</p>
-            <p class="hero__sub">ALL 15 SHOWS ACROSS JAPAN</p>
-            <div class="hero__countdown" id="countdown">
-              <span class="countdown__label">出発まで</span>
-              <span class="countdown__number" id="countdown-days">---</span>
-              <span class="countdown__unit">DAYS</span>
-            </div>
-            <div class="hero__video">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/tbEe26Azk8U?si=AVbsHTBHINq1wKCB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
+          <!-- 5. YouTube -->
+          <div class="hero__video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/tbEe26Azk8U?si=AVbsHTBHINq1wKCB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
           </div>
         </div>
       </div>
 
       <!-- Tab 2: Schedule (ライブハウス) -->
-      <div class="tab-panel" id="panel-phase1">
+      <div class="tab-panel" id="panel-phase1" role="tabpanel" aria-labelledby="tab-phase1">
         <div class="tab-panel__content">
           <h2 class="section__heading">
             <img src="img/SCHEDULE.svg" alt="SCHEDULE" class="heading__img">
@@ -164,7 +180,7 @@
       </div>
 
       <!-- Tab 3: Phase 2 Zepp -->
-      <div class="tab-panel" id="panel-phase2">
+      <div class="tab-panel" id="panel-phase2" role="tabpanel" aria-labelledby="tab-phase2">
         <div class="tab-panel__content">
           <h2 class="section__heading">
             <img src="img/PHASE%202.svg" alt="PHASE 2" class="heading__img">
@@ -177,14 +193,14 @@
       </div>
 
       <!-- Tab 4: GOODS -->
-      <div class="tab-panel" id="panel-goods">
+      <div class="tab-panel" id="panel-goods" role="tabpanel" aria-labelledby="tab-goods">
         <div class="tab-panel__content">
           <h2 class="section__heading">
             <img src="img/GOODS.svg" alt="GOODS" class="heading__img">
           </h2>
           <div class="goods__inner">
             <div class="section-visual" aria-hidden="true">
-              <img src="img/journal/past/5.jpg" alt="" class="section-visual__img">
+              <img src="img/journal/past/5.webp" alt="" class="section-visual__img">
               <p class="section-visual__text">COMING SOON</p>
             </div>
             <p class="goods__status">情報解禁までお待ちください</p>
@@ -193,7 +209,7 @@
       </div>
 
       <!-- Tab 5: JOURNAL -->
-      <div class="tab-panel" id="panel-journal">
+      <div class="tab-panel" id="panel-journal" role="tabpanel" aria-labelledby="tab-journal">
         <div class="tab-panel__content">
           <h2 class="section__heading">
             <img src="img/JOURNAL.svg" alt="JOURNAL" class="heading__img">
@@ -218,7 +234,7 @@
       </div>
 
       <!-- Tab 6: NOTICE -->
-      <div class="tab-panel" id="panel-notice">
+      <div class="tab-panel" id="panel-notice" role="tabpanel" aria-labelledby="tab-notice">
         <div class="tab-panel__content">
           <h2 class="section__heading">
             <img src="img/NOTICE.svg" alt="NOTICE" class="heading__img">
@@ -233,7 +249,7 @@
                   <li>チケットご購入後のキャンセル/変更/払戻はできません。</li>
                   <li>チケット申込者および同行者の方は、イープラスの会員登録とe+アプリのインストールが必要です。</li>
                   <li>チケット先行受付のお申込み・支払・受取に関するお問い合わせ <a href="http://eplus.jp/qa/" target="_blank" rel="noopener">http://eplus.jp/qa/</a>（PC＆携帯）</li>
-                  <li>12/6-26公演 1F スタンディングチケットにつきましては整理番号ごとに観覧エリアを区分させていただきます。予めご了承ください。</li>
+
                   <li>営利目的での購入及び転売を禁止いたします。体調不良やお客様都合により、来場が困難となった方のために、リセールを予定しております。</li>
                   <li>リセールは行わない場合もございますので、予めご了承下さい。</li>
                   <li>リセール期間終了後や、リセールが成立しなかった場合はご返金できませんので、予めご了承ください。詳細は改めてご案内いたします。</li>
@@ -295,15 +311,8 @@
               <img src="img/torisetsu.png" alt="ライブ参戦トリセツ" class="notice__torisetsu-img">
             </a>
           </div>
-        </div>
-      </div>
-
-      <!-- Tab 7: CONTACT -->
-      <div class="tab-panel" id="panel-contact">
-        <div class="tab-panel__content">
-          <h2 class="section__heading">
-            <img src="img/CONTACT.svg" alt="CONTACT" class="heading__img">
-          </h2>
+          <!-- Contact form (merged from CONTACT tab) -->
+          <div style="margin-top: 48px;"></div>
           <div class="contact__inner">
             <iframe src="https://araki-live.jp/script/mailform/odyssey/" class="contact__iframe" title="お問い合わせフォーム" scrolling="no"></iframe>
           </div>
@@ -353,7 +362,7 @@
 
   <!-- Show Detail Modal -->
   <div class="modal-overlay" id="showModal">
-    <div class="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="公演詳細">
       <button class="modal__close" id="modalClose" aria-label="閉じる">&times;</button>
       <div class="modal__header">
         <p class="modal__date" id="modalDate"></p>
@@ -374,6 +383,6 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
