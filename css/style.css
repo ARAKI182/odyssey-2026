@@ -217,7 +217,7 @@ body {
 }
 
 .bg-logo__img {
-  width: 90vh;
+  width: 108vh;
   max-width: none;
   transform: rotate(90deg);
   opacity: 0.04;
@@ -414,84 +414,92 @@ body {
 .hero-compact {
   text-align: center;
   padding: 20px 0 28px;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
   margin-top: 10px;
   margin-bottom: 28px;
   position: relative;
   overflow: visible;
 }
 
-/* Hero diagonal band — reversed direction from ticket band */
+/* Hero diagonal band (logo) — left-downward slope ╲ */
 .hero-compact__band {
   position: absolute;
-  left: -40px;
-  right: -40px;
-  top: 45%;
+  left: 50%;
+  transform-origin: center;
+  width: min(900px, 100vw);
+  margin-left: max(-450px, -50vw);
+  top: 32%;
   transform: translateY(-70%);
   height: 55%;
-  background: rgba(40, 18, 18, 0.7);
-  clip-path: polygon(0 0%, 100% 14%, 100% 100%, 0% 86%);
+  background: rgba(80, 50, 15, 0.6);
+  clip-path: polygon(0 14%, 100% 0%, 100% 86%, 0% 100%);
   pointer-events: none;
   z-index: 0;
   opacity: 0;
   animation: hero-band-in 1s var(--ease-spring-3) 0.3s both;
 }
-.hero-compact__band::before {
-  content: '';
+
+/* Hero diagonal band (countdown) — right-downward slope ╱ */
+.hero-compact__band-cd {
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(315deg, rgba(120, 30, 30, 0.25) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(80, 20, 20, 0.3) 0%, transparent 50%);
+  left: 50%;
+  width: min(900px, 100vw);
+  margin-left: max(-450px, -50vw);
+  bottom: -7%;
+  height: 55%;
+  background: rgba(120, 45, 25, 0.6);
+  clip-path: polygon(0 0%, 100% 14%, 100% 100%, 0% 86%);
   pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: hero-band-cd-in 1s var(--ease-spring-3) 0.6s both;
 }
 
-/* Hero band slides in from left */
+/* Logo band slides in from right (1st band) */
 @keyframes hero-band-in {
-  0%   { opacity: 0; transform: translateY(-70%) translateX(-100%); }
+  0%   { opacity: 0; transform: translateY(-70%) translateX(100%); }
   100% { opacity: 1; transform: translateY(-70%) translateX(0); }
+}
+
+/* Countdown band slides in from left (2nd band) */
+@keyframes hero-band-cd-in {
+  0%   { opacity: 0; transform: translateX(-100%); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
 /* Ticket info section (TOP tab) — diagonal clip-path slash */
 .ticket-info {
   margin: 40px 0;
   position: relative;
+  overflow: visible;
 }
 .ticket-info__band {
-  position: relative;
-  margin: 0 -20px;
-  padding: 48px 20px 40px;
-  background: #6b1a1a;
+  position: absolute;
+  left: 50%;
+  width: min(900px, 100vw);
+  margin-left: max(-450px, -50vw);
+  top: 50%;
+  height: 100%;
+  background: rgba(107, 26, 26, 0.6);
   clip-path: polygon(0 12%, 100% 0%, 100% 88%, 0% 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  pointer-events: none;
+  z-index: 0;
   opacity: 0;
   animation: ticket-band-in 0.8s var(--ease-spring-3) 0.5s both;
 }
 
 /* Ticket band slides in from right */
 @keyframes ticket-band-in {
-  0%   { opacity: 0; transform: translateX(100%); }
-  100% { opacity: 1; transform: translateX(0); }
+  0%   { opacity: 0; transform: translateY(-50%) translateX(100%); }
+  100% { opacity: 1; transform: translateY(-50%) translateX(0); }
 }
-.ticket-info__band::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(135deg, rgba(180, 40, 40, 0.3) 0%, transparent 50%),
-    linear-gradient(225deg, rgba(100, 20, 20, 0.4) 0%, transparent 50%);
-  pointer-events: none;
-}
-.ticket-info__band-inner {
+.ticket-info__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   position: relative;
   z-index: 1;
+  padding: 48px 20px 40px;
 }
 .ticket-info__price-label {
   font-family: var(--font-heading-en);
